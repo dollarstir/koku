@@ -1,0 +1,191 @@
+$(function(){
+    //*********************************** */
+    //Izi modal here 
+    //*********************************** */
+
+  $('#editfaculty').iziModal({
+    title: 'Edit Faculty',
+    // icon: 'fa fa-eye',
+    
+    headerColor: '#5A6268',
+    theme: 'dark',
+    // width: 500,
+    // height: 500,
+    padding: 20,
+    radius: 20,
+    top: 100,
+    bottom: 50,
+  });
+
+  $('#viewfaculty').iziModal({
+    title: 'View Faculty',
+    // icon: 'icon-home',
+    headerColor: '#0069D9',
+    padding: 20,
+    radius: 20,
+    top: 90,
+    // bottom: 50,
+
+  });
+
+  $('#addfacultymodal').iziModal({
+    title: 'Add Faculty',
+    headerColor: '#0069D9',
+    padding: 20,
+    radius: 20,
+    top: 120,
+    bottom: 50,
+
+  });
+
+
+
+  // *********************************** */
+
+
+
+  $('#editdepartment').iziModal({
+    title: 'Edit Department',
+    // icon: 'fa fa-eye',
+    
+    headerColor: '#5A6268',
+    theme: 'dark',
+    // width: 500,
+    // height: 500,
+    padding: 20,
+    radius: 20,
+    top: 100,
+    bottom: 50,
+  });
+
+  $('#viewdepartment').iziModal({
+    title: 'View Department',
+    // icon: 'icon-home',
+    headerColor: '#0069D9',
+    padding: 20,
+    radius: 20,
+    top: 90,
+    // bottom: 50,
+
+  });
+
+  $('#adddepartmentmodal').iziModal({
+    title: 'Add Department',
+    headerColor: '#0069D9',
+    padding: 20,
+    radius: 20,
+    top: 120,
+    bottom: 50,
+
+  });
+
+  // *********************************** */
+
+  $('#editprogramme').iziModal({
+    title: 'Edit Programme',
+    // icon: 'fa fa-eye',
+    
+    headerColor: '#5A6268',
+    theme: 'dark',
+    // width: 500,
+    // height: 500,
+    padding: 20,
+    radius: 20,
+    top: 100,
+    bottom: 50,
+  });
+
+  $('#viewprogramme').iziModal({
+    title: 'View Programme',
+    // icon: 'icon-home',
+    headerColor: '#0069D9',
+    padding: 20,
+    radius: 20,
+    top: 90,
+    // bottom: 50,
+
+  });
+
+  $('#addprogrammemodal').iziModal({
+    title: 'Add Programme',
+    headerColor: '#0069D9',
+    padding: 20,
+    radius: 20,
+    top: 120,
+    bottom: 50,
+
+  });
+
+
+
+
+// ****************************************************************************************
+// Course section
+// ****************************************************************************************
+
+
+$('#editcourse').iziModal({
+    title: 'Edit Course',
+    // icon: 'fa fa-eye',
+    
+    headerColor: '#5A6268',
+    theme: 'dark',
+    // width: 500,
+    // height: 500,
+    padding: 20,
+    radius: 20,
+    top: 100,
+    bottom: 50,
+  });
+
+  $('#viewcourse').iziModal({
+    title: 'View Course',
+    // icon: 'icon-home',
+    headerColor: '#0069D9',
+    padding: 20,
+    radius: 20,
+    top: 90,
+    // bottom: 50,
+
+  });
+
+  $('#addcoursemodal').iziModal({
+    title: 'Add Course',
+    headerColor: '#0069D9',
+    padding: 20,
+    radius: 20,
+    top: 120,
+    bottom: 50,
+
+  });
+
+//   ****************************************************************************************
+// position section
+// ****************************************************************************************
+$('#editposition').iziModal({
+    title: 'Edit Position',
+    // icon: 'fa fa-eye',
+    
+    headerColor: '#5A6268',
+    theme: 'dark',
+    // width: 500,
+    // height: 500,
+    padding: 20,
+    radius: 20,
+    top: 100,
+    bottom: 50,
+  });
+
+  
+
+  $('#addpositionmodal').iziModal({
+    title: 'Add Position',
+    headerColor: '#0069D9',
+    padding: 20,
+    radius: 20,
+    top: 120,
+    bottom: 50,
+
+  });
+
+})
