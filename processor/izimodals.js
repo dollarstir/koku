@@ -29,7 +29,7 @@ $(function(){
   });
 
   $('#addfacultymodal').iziModal({
-    title: 'Add Faculty',
+    title: 'New Trip',
     headerColor: '#0069D9',
     padding: 20,
     radius: 20,
@@ -187,5 +187,28 @@ $('#editposition').iziModal({
     bottom: 50,
 
   });
+
+
+
+  // calculate net weight
+
+  $('#gw').on('input',function(){
+      if($('#tw').val() == ''){
+        $('#netwaight').val($(this).val() - 0 );
+      }
+      if($('#tw').val()!=''){
+        $('#netwaight').val($(this).val() - parseFloat($('#tw').val()));
+      }
+  })
+
+
+  $('#tw').on('input',function(){
+    if($('#gw').val() == ''){
+      $('#netwaight').val($(this).val() - 0 );
+    }
+    if($('#gw').val()!=''){
+      $('#netwaight').val( parseFloat($('#gw').val())- $(this).val());
+    }
+})
 
 })

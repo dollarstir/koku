@@ -1,7 +1,7 @@
 <?php
 involve('core.php');
 involve('admin.php');
-admintop('Faculties');
+admintop('Trips');
 $admin = new Admin();
 
 ?>
@@ -23,7 +23,7 @@ $admin = new Admin();
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Faculties</h1>
+              <h1>Trips</h1>
             </div>
             
           </div>
@@ -46,21 +46,26 @@ $admin = new Admin();
                     <!-- add faculty -->
                     
                     <!-- add faculty -->
-                    <div><button type="button" class="btn btn-primary" data-izimodal-open="#addfacultymodal" style="margin:10px;" data-izimodal-transitionin="fadeInDown">Add Faculty</button></div>
+                    <div><button type="button" class="btn btn-primary" data-izimodal-open="#addfacultymodal" style="margin:10px;" data-izimodal-transitionin="fadeInDown">Add Trip</button></div>
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Name</th>
-                        <th>Code</th>
-                        <th>Factory</th>
-                        <th>Status</th>
+                        <th>Pit</th>
+                        <th>Truck</th>
+                        <th>Gross</th>
+                        <th>Tare</th>
+                        <th>Net</th>
+                        <th>Fuel</th>
+                        <th>Time in</th>
+                        <th>Time out</th>
+                        <th>Date</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody id="tblfaculty">
 
-                    <?php $admin->getfaculties(); ?>
+                    <?php  ?>
                       
                         
                       
@@ -69,10 +74,15 @@ $admin = new Admin();
                     <tfoot>
                       <tr>
                       <th>#</th>
-                        <th>Name</th>
-                        <th>Code</th>
-                        <th>Factory</th>
-                        <th>Status</th>
+                        <th>Pit</th>
+                        <th>Truck</th>
+                        <th>Gross</th>
+                        <th>Tare</th>
+                        <th>Net</th>
+                        <th>Fuel</th>
+                        <th>Time in</th>
+                        <th>Time out</th>
+                        <th>Date</th>
                         <th>Action</th>
                       </tr>
                     </tfoot>
@@ -101,58 +111,67 @@ $admin = new Admin();
                 <!-- add faculty -->
 
                 <div id="addfacultymodal" data-iziModal-icon="fa fa-plus">
-                    <form class="addfaculty">
+                    <form class="addtrip">
                     <div class="card-body">
+
+
                         <div class="form-group">
-                        <label for="exampleInputEmail1">Name of Faculty</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="faculty_name">
+                          <label>Select Pit</label>
+                          <select class="form-control select2 select2-hidden-accessible" style="width: 100%;"
+                              data-select2-id="1" tabindex="-1" aria-hidden="true" name="pid">
+                              <?php $admin->listpits(); ?>
+                              
+                          </select>
+                          <!--  -->
+                        </div>
+
+
+
+                        <div class="form-group">
+                          <label>Select Truck</label>
+                          <select class="form-control select2 select2-hidden-accessible" style="width: 100%;"
+                              data-select2-id="1" tabindex="-1" aria-hidden="true" name="tid">
+                              <?php $admin->listrucks(); ?>
+                              
+                          </select>
+                          <!--  -->
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Gross Weight (weight of truck + weight of load)</label>
+                          <input type="number" class="form-control" id="gw" placeholder="" name="gross">
+                        </div>
+
+
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Tare Weight( Weight of truck only)</label>
+                          <input type="number" class="form-control" id="tw" placeholder="" name="tare">
                         </div>
 
                         <div class="form-group">
-                        <label for="exampleInputEmail1">Faculty Code</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="faculty_code">
+                        <label for="exampleInputEmail1">Net weight</label>
+                        <input type="number" class="form-control" id="netwaight" placeholder="" name="netw" disabled>
+                        </div>
+
+                        <div class="form-group">
+                        <label for="exampleInputEmail1">Time in</label>
+                        <input type="time" class="form-control" id="exampleInputEmail1" placeholder="" name="time_in">
+                        </div>
+
+                        <div class="form-group">
+                        <label for="exampleInputEmail1">Time Out</label>
+                        <input type="time" class="form-control" id="exampleInputEmail1" placeholder="" name="time_out">
                         </div>
 
                         
 
-                        <div class="form-group">
-                        <label for="exampleInputEmail1">Faculty Description</label>
-                        <textarea  class="form-control" id="exampleInputEmail1" name="faculty_description"></textarea>
-                        </div>
+                        
 
-                        <div class="form-group">
-                        <label for="exampleInputEmail1">Factory Name</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="name_of_factory">
-                        </div>
-
-                        <div class="form-group">
-                        <label for="exampleInputEmail1">Product production</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="product_production">
-                        </div>
-
-                        <div class="form-group">
-                        <label for="exampleInputEmail1">License Code</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="license_code">
-                        </div>
-
-                        <div class="form-group">
-                        <label for="exampleInputEmail1">Business Address</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="business_address">
-                        </div>
+                        
 
 
                         
 
-                        <div class="form-group">
-                        <label>Faculty status</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;"
-                            data-select2-id="1" tabindex="-1" aria-hidden="true" name="faculty_status">
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                            
-                        </select>
-                        <!--  -->
-                        </div>
+                        
 
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>

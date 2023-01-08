@@ -764,4 +764,26 @@ class admin
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>';
     }
+
+    // ************************************************************
+    // .Fleet manager
+    //****************************************** */
+
+    // listpits
+    public function listpits()
+    {
+        $res = fetchall('pit');
+        foreach ($res as $row) {
+            echo '<option value="'.$row['pid'].'">'.$row['pit_name'].'</option>';
+        }
+    }
+
+    // listtruck
+    public function listrucks()
+    {
+        $res = fetchall('trucks');
+        foreach ($res as $row) {
+            echo '<option value="'.$row['tid'].'">'.$row['truck_name'].'</option>';
+        }
+    }
 }

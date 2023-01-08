@@ -35,23 +35,23 @@ $router = new Router([
     ),
 
     new Route(
-        '/glomotadmin',
+        '/admin',
         function ($context) {
             return Viewer::view('gadmin/glomot.php', $context);
         }
     ),
 
     new Route(
-        '/newfaculty',
+        '/newtrip',
         function ($context) {
             return Viewer::view('gadmin/add_faculty.php', $context);
         }
     ),
 
     new Route(
-        '/faculties',
+        '/trips',
         function ($context) {
-            return Viewer::view('gadmin/list_faculties.php', $context);
+            return Viewer::view('gadmin/list_trips.php', $context);
         }
     ),
 
