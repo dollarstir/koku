@@ -78,36 +78,36 @@ function adminnav()
                           </a>
                       </li>
                       <li class="nav-item">
-                          <a href="#" class="nav-link">
+                          <a href="pits" class="nav-link">
                           <i class="nav-icon fas fa-road"></i> 
                           <p>
                               Pits
                              
-                              <span class="badge badge-secondary right">'.countall('pit').'</span>
+                              <span class="badge badge-secondary right" id="ctpits">'.countall('pit').'</span>
                           </p>
                           </a>
                           
                       </li>
 
                       <li class="nav-item">
-                          <a href="#" class="nav-link">
+                          <a href="trucks" class="nav-link">
                           <i class="nav-icon fas fa-truck"></i> 
                           <p>
                               Trucks
                              
-                              <span class="badge badge-secondary right">'.countall('trucks').'</span>
+                              <span class="badge badge-secondary right" id="cttrucks">'.countall('trucks').'</span>
                           </p>
                           </a>
                           
                       </li>
 
                       <li class="nav-item">
-                          <a href="#" class="nav-link">
+                          <a href="trips" class="nav-link">
                           <i class="nav-icon fas fa-map"></i> 
                           <p>
                               Trips
                              
-                              <span class="badge badge-secondary right">'.countall('trips').'</span>
+                              <span class="badge badge-secondary right" id="cttrips">'.countall('trips').'</span>
                           </p>
                           </a>
                           
@@ -452,6 +452,7 @@ bsCustomFileInput.init();
 <script>
   $(function () {
     $("#example1").DataTable({
+      "order": [[0, "desc"]],
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo("#example1_wrapper .col-md-6:eq(0)");

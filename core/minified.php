@@ -47,6 +47,23 @@ function search($table, $searchword, $record, $order = [], $limit = '')
 
     return $response;
 }
+
+function sumall($table, $rowsum, $order = [], $limit = '')
+{
+    $init = new sums();
+    $response = $init->sumall($table, $rowsum, $order, $limit);
+
+    return $response;
+}
+
+
+function sum($table, $rowsum, $target, $conjunction = '', $order = [], $limit = '')
+{
+    $init = new sums();
+    $response = $init->sum($table, $rowsum, $target, $conjunction , $order , $limit);
+
+    return $response;
+}
 function sendmail($domain, $subject, $message, $from_name = 'Yolk Mailer', $to, $reply_to = 'info@phpyork.com', $reply_to_name = 'Yolk Mailer')
 {
     $n = new Mail();
@@ -195,9 +212,6 @@ function mainchecker($sessionvariable, $notloginlocation = '')
          $response = $init->initsession();
      }
 
-
-
-
     // yolk widgets made simple
     function p($attributes = [], $content = [])
     {
@@ -209,8 +223,9 @@ function mainchecker($sessionvariable, $notloginlocation = '')
         $tag = ' <p '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
             $value = $attributes[$key];
             $carry .= "$key=\"$value\" ";
+
             return $carry;
-        }, "")).'>';
+        }, '')).'>';
         $tag .= implode('', $content);
 
         // foreach ($content as $result) {
@@ -223,2806 +238,2928 @@ function mainchecker($sessionvariable, $notloginlocation = '')
     }
 
      function a($href = '', $attributes = [], $content = ['link here'])
-    {
-        // var_dump(strpos($href, 'http') !== false);
-        if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
-            $tag = ' <a href="'.($href).'"  ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        } else {
-            $tag = ' <a href="'.Path::rebase($href).'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        }
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
+     {
+         // var_dump(strpos($href, 'http') !== false);
+         if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
+             $tag = ' <a href="'.($href).'"  '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
-        $tag .= implode('', $content);
-        // }
-        $tag .= '</a>
+                 return $carry;
+             }, '')).'>';
+         } else {
+             $tag = ' <a href="'.Path::rebase($href).'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'>';
+         }
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+
+         // foreach ($content as $result) {
+         $tag .= implode('', $content);
+         // }
+         $tag .= '</a>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function nav($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <nav ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <nav '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</nav>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</nav>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function html($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <html ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <html '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</html>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</html>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function head($content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <head>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <head>';
+         $tag .= implode('', $content);
 
-        // foreach ($content as $result) {
+         // foreach ($content as $result) {
 
-        // }
-        $tag .= '</head>
+         // }
+         $tag .= '</head>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function title($content = '')
-    {
-        // if (is_array($content)) {
-        // } else {
-        //     $content = [$content];
-        // }
-        $tag = ' <title>';
-        $tag .= $content;
+     {
+         // if (is_array($content)) {
+         // } else {
+         //     $content = [$content];
+         // }
+         $tag = ' <title>';
+         $tag .= $content;
 
-        // foreach ($content as $result) {
+         // foreach ($content as $result) {
 
-        // }
-        $tag .= '</title>
+         // }
+         $tag .= '</title>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function body($content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <body>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <body>';
+         $tag .= implode('', $content);
 
-        // foreach ($content as $result) {
+         // foreach ($content as $result) {
 
-        // }
-        $tag .= '</body>
+         // }
+         $tag .= '</body>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function abbr($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <abbr ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <abbr '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</abbr>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</abbr>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function acronym($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <acronym ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <acronym '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</acronym>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</acronym>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function address($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <address ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <address '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</address>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</address>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function applet($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <applet ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <applet '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</applet>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</applet>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function area($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <area ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <area '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</area>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</area>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function article($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <article ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <article '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</article>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</article>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function aside($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <aside ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <aside '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</aside>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</aside>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function audio($source = '', $attributes = [], $type = '')
-    {
-        $tag = ' <audio ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).' controls>';
+     {
+         $tag = ' <audio '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        if (strpos($source, 'http') !== false || strpos($source, 'www.') !== false) {
-            $tag .= '<source src="'.$source.'" type="'.$type.'">';
-        } else {
-            $tag .= '<source src="'.Path::rebase($source).'" type="'.$type.'">';
-        }
-        $tag .= ' </audio>
+             return $carry;
+         }, '')).' controls>';
+
+         if (strpos($source, 'http') !== false || strpos($source, 'www.') !== false) {
+             $tag .= '<source src="'.$source.'" type="'.$type.'">';
+         } else {
+             $tag .= '<source src="'.Path::rebase($source).'" type="'.$type.'">';
+         }
+         $tag .= ' </audio>
         ';
 
-        return $tag;
-    }
+         return $tag;
+     }
 
      function b($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <b ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <b '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</b>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</b>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function base($href = '', $attributes = [])
-    {
-        if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
-            return ' <base ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).' href="'.$href.'">';
-        } else {
-            return ' <base ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).' href="'.Path::rebase($href).'">';
-        }
-    }
+     {
+         if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
+             return ' <base '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).' href="'.$href.'">';
+         } else {
+             return ' <base '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).' href="'.Path::rebase($href).'">';
+         }
+     }
 
      function bdi($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <bdi ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <bdi '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</bdi>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</bdi>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function bdo($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <bdo ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <bdo '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</bdo>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</bdo>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function big($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <big ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <big '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</big>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</big>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function blockquote($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <blockquote ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <blockquote '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</blockquote>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</blockquote>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function br($times = 1)
-    {
-        $tag = '';
-        for ($i = 1; $i <= $times; ++$i) {
-            $tag .= '<br>';
-        }
-        $tag .= '';
+     {
+         $tag = '';
+         for ($i = 1; $i <= $times; ++$i) {
+             $tag .= '<br>';
+         }
+         $tag .= '';
 
-        return trim($tag);
-    }
-
-     
+         return trim($tag);
+     }
 
      function button($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <button ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <button '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</button>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</button>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function canvas($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <canvas ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <canvas '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</canvas>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</canvas>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function caption($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <caption ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <caption '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</caption>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</caption>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function center($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <center ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <center '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</center>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</center>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function cite($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <cite ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <cite '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</cite>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</cite>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function code($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <code ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <code '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</code>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</code>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function col($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <col ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <col '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</col>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</col>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function colgroup($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <colgroup ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <colgroup '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</colgroup>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</colgroup>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function data($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <data ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <data '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</data>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</data>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function datalist($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <datalist ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <datalist '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</datalist>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</datalist>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function dd($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <dd ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <dd '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</dd>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</dd>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function del($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <del ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <del '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</del>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</del>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function details($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <details ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <details '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</details>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</details>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function dfn($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <dfn ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <dfn '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</dfn>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</dfn>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function dialog($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <dialog ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <dialog '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</dialog>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</dialog>
         ';
 
-        return trim($tag);
-    }
-
-
+         return trim($tag);
+     }
 
      function divi($attributes = [], $content = [''])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <div ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <div '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</div>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</div>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function div($attributes = [], $content = [''])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <div ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <div '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</div>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</div>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function container($attributes = [], $content = [''])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <div ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <div '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</div>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</div>
         ';
 
-        return trim($tag);
-    }
-
-    
+         return trim($tag);
+     }
 
      function dt($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <dt ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <dt '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</dt>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</dt>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function em($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <em ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <em '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</em>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</em>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function embed($source, $attributes = [])
-    {
-        if (strpos($source, 'http') !== false || strpos($source, 'www') !== false) {
-            return ' <embed src="'.$source.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        } else {
-            return ' <embed src="'.Path::rebase($source).'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        }
-    }
+     {
+         if (strpos($source, 'http') !== false || strpos($source, 'www') !== false) {
+             return ' <embed src="'.$source.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'>';
+         } else {
+             return ' <embed src="'.Path::rebase($source).'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'>';
+         }
+     }
 
      function fieldset($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <fieldset ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <fieldset '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</fieldset>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</fieldset>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function figure($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <figure ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <figure '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</figure>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</figure>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function figcaption($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <figcation ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <figcation '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</figcaption>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</figcaption>
         ';
 
-        return trim($tag);
-    }
-
-     
+         return trim($tag);
+     }
 
      function footer($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <footer ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <footer '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</footer>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</footer>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function form($action = '', $method = '', $attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <form action="'.$action.'" method="'.$method.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <form action="'.$action.'" method="'.$method.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</form>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</form>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function frame($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <frame ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <frame '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</frame>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</frame>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function frameset($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <frameset ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <frameset '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</frameset>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</frameset>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function h1($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <h1 ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <h1 '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</h1>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</h1>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function h2($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <h2 ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <h2 '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</h2>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</h2>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function h3($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <h3 ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <h3 '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</h3>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</h3>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function h4($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <h4 ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <h4 '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</h4>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</h4>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function h5($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <h5 ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <h5 '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</h5>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</h5>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function h6($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <h6 ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <h6 '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</h6>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</h6>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function heada($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <header ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <header '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</header>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</header>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function hr($times = 1)
-    {
-        $tag = '';
-        for ($i = 1; $i <= $times; ++$i) {
-            $tag .= '<hr>';
-        }
-        $tag .= '';
+     {
+         $tag = '';
+         for ($i = 1; $i <= $times; ++$i) {
+             $tag .= '<hr>';
+         }
+         $tag .= '';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function hruler($times = 1)
-    {
-        $tag = '';
-        for ($i = 1; $i <= $times; ++$i) {
-            $tag .= '<hr>';
-        }
-        $tag .= '';
+     {
+         $tag = '';
+         for ($i = 1; $i <= $times; ++$i) {
+             $tag .= '<hr>';
+         }
+         $tag .= '';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function i($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <i ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <i '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</i>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</i>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function iframe($source = '', $attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <iframe scr='.$source.' ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <iframe scr='.$source.' '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</iframe>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</iframe>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function img($source = '', $loadingtype = 'lazy', $attributes = [])
-    {
-        // $source =trim($source);
-        if (strpos($source, 'http') !== false || strpos($source, 'www.') !== false) {
-            $tag = '<img src="'.$source.'" loading="'.$loadingtype.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).' />';
-        } else {
-            $tag = ' <img  src="'.Path::rebase($source).'" loading="'.$loadingtype.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'/>';
-        }
+     {
+         // $source =trim($source);
+         if (strpos($source, 'http') !== false || strpos($source, 'www.') !== false) {
+             $tag = '<img src="'.$source.'" loading="'.$loadingtype.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
 
-        return $tag;
-    }
+                 return $carry;
+             }, '')).' />';
+         } else {
+             $tag = ' <img  src="'.Path::rebase($source).'" loading="'.$loadingtype.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'/>';
+         }
+
+         return $tag;
+     }
 
      function image($source = '', $loadingtype = 'lazy', $attributes = [])
-    {
-        if (strpos($source, 'http') !== false || strpos($source, 'www.') !== false) {
-            $tag = '<img src="'.$source.'" loading="'.$loadingtype.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).' />';
-        } else {
-            $tag = ' <img  src="'.Path::rebase($source).'" loading="'.$loadingtype.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'/>';
-        }
+     {
+         if (strpos($source, 'http') !== false || strpos($source, 'www.') !== false) {
+             $tag = '<img src="'.$source.'" loading="'.$loadingtype.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
 
-        return $tag;
-    }
+                 return $carry;
+             }, '')).' />';
+         } else {
+             $tag = ' <img  src="'.Path::rebase($source).'" loading="'.$loadingtype.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'/>';
+         }
+
+         return $tag;
+     }
 
      function pic($source = '', $loadingtype = 'lazy', $attributes = [])
-    {
-        if (strpos($source, 'http') !== false || strpos($source, 'www.') !== false) {
-            $tag = '<img src="'.$source.'" loading="'.$loadingtype.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).' />';
-        } else {
-            $tag = ' <img  src="'.Path::rebase($source).'" loading="'.$loadingtype.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'/>';
-        }
+     {
+         if (strpos($source, 'http') !== false || strpos($source, 'www.') !== false) {
+             $tag = '<img src="'.$source.'" loading="'.$loadingtype.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
 
-        return $tag;
-    }
+                 return $carry;
+             }, '')).' />';
+         } else {
+             $tag = ' <img  src="'.Path::rebase($source).'" loading="'.$loadingtype.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'/>';
+         }
+
+         return $tag;
+     }
 
      function photo($source = '', $loadingtype = 'lazy', $attributes = [])
-    {
-        if (strpos($source, 'http') !== false || strpos($source, 'www.') !== false) {
-            $tag = '<img src="'.$source.'" loading="'.$loadingtype.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).' />';
-        } else {
-            $tag = ' <img  src="'.Path::rebase($source).'" loading="'.$loadingtype.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'/>';
-        }
+     {
+         if (strpos($source, 'http') !== false || strpos($source, 'www.') !== false) {
+             $tag = '<img src="'.$source.'" loading="'.$loadingtype.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
 
-        return $tag;
-    }
+                 return $carry;
+             }, '')).' />';
+         } else {
+             $tag = ' <img  src="'.Path::rebase($source).'" loading="'.$loadingtype.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'/>';
+         }
+
+         return $tag;
+     }
 
      function input($type = 'text', $name = '', $class = '', $value = '', $attributes = [])
-    {
-        return ' <input type="'.$type.'" name="'.$name.'" class="'.$class.'"  value="'.$value.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-    }
+     {
+         return ' <input type="'.$type.'" name="'.$name.'" class="'.$class.'"  value="'.$value.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
+
+             return $carry;
+         }, '')).'>';
+     }
 
      function ins($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <ins ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <ins '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</ins>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</ins>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function kbd($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <kbd ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <kbd '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</kbd>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</kbd>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function keyboard($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <kbd ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <kbd '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</kbd>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</kbd>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function label($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <label ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <label '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</label>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</label>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function legend($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <legend ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <legend '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</legend>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</legend>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function li($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <li ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <li '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</li>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</li>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function linkatom($href = '', $attributes = [])
-    {
-        
-        if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
-            return '<link rel="alternate" href="'.$href.'" type="application/atom+xml" title="Atom" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        } else {
-            return '<link rel="alternate" href="'.Path::rebase($href).'" type="application/atom+xml" title="Atom" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        }
-    }
+     {
+         if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
+             return '<link rel="alternate" href="'.$href.'" type="application/atom+xml" title="Atom" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'>';
+         } else {
+             return '<link rel="alternate" href="'.Path::rebase($href).'" type="application/atom+xml" title="Atom" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'>';
+         }
+     }
 
      function linkcss($href = '', $attributes = [])
-    {
-        
-        if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
-            return '<link rel="stylesheet" href="'.$href.'" type="text/css" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        } else {
-            return '<link rel="stylesheet" href="'.Path::rebase($href).'" type="text/css" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        }
-    }
+     {
+         if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
+             return '<link rel="stylesheet" href="'.$href.'" type="text/css" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'>';
+         } else {
+             return '<link rel="stylesheet" href="'.Path::rebase($href).'" type="text/css" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'>';
+         }
+     }
 
      function linkjs($src = '', $attributes = [])
-    {
-        
-        if (strpos($src, 'http') !== false || strpos($src, 'www') !== false) {
-            return '<script src="'.$src.'"  ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'></script>';
-        } else {
-            return '<script src="'.Path::rebase($src).'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'></script>';
-        }
-    }
+     {
+         if (strpos($src, 'http') !== false || strpos($src, 'www') !== false) {
+             return '<script src="'.$src.'"  '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'></script>';
+         } else {
+             return '<script src="'.Path::rebase($src).'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'></script>';
+         }
+     }
 
      function linkcustomcss($href = '', $rel = '', $attributes = [])
-    {
-        
-        if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
-            return '<link rel="'.$rel.'" href="'.$href.'" type="text/css" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        } else {
-            return '<link rel="'.$rel.'"  href="'.Path::rebase($href).'" type="text/css" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        }
-    }
+     {
+         if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
+             return '<link rel="'.$rel.'" href="'.$href.'" type="text/css" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'>';
+         } else {
+             return '<link rel="'.$rel.'"  href="'.Path::rebase($href).'" type="text/css" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'>';
+         }
+     }
 
      function linkcustom($href = '', $rel = '', $type = '', $attributes = [])
-    {
-        
-        if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
-            return '<link rel="'.$rel.'" href="'.$href.'" type="'.$type.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        } else {
-            return '<link rel="'.$rel.'"  href="'.Path::rebase($href).'" type="'.$type.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        }
-    }
+     {
+         if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
+             return '<link rel="'.$rel.'" href="'.$href.'" type="'.$type.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'>';
+         } else {
+             return '<link rel="'.$rel.'"  href="'.Path::rebase($href).'" type="'.$type.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'>';
+         }
+     }
 
      function favicon($href = '', $type = '', $attributes = [])
-    {
-        if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
-            return '<link rel="shortcut icon" href="'.$href.'" type="'.$type.'">';
-        } else {
-            return '<link rel="shortcut icon" href="'.Path::rebase($href).'" type="text/css" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        }
-    }
+     {
+         if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
+             return '<link rel="shortcut icon" href="'.$href.'" type="'.$type.'">';
+         } else {
+             return '<link rel="shortcut icon" href="'.Path::rebase($href).'" type="text/css" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'>';
+         }
+     }
 
      function customfavicon($href = '', $rel = '', $type = '', $attributes = [])
-    {
-        if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
-            return '<link rel="'.$rel.'" href="'.$href.'" type="'.$type.'">';
-        } else {
-            return '<link rel="'.$rel.'" href="'.Path::rebase($href).'" type="text/css" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        }
-    }
+     {
+         if (strpos($href, 'http') !== false || strpos($href, 'www') !== false) {
+             return '<link rel="'.$rel.'" href="'.$href.'" type="'.$type.'">';
+         } else {
+             return '<link rel="'.$rel.'" href="'.Path::rebase($href).'" type="text/css" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'>';
+         }
+     }
 
      function linkimport($href = '', $attributes = [])
-    {
-        return '<link rel="import" href="'.$href.'">';
-    }
+     {
+         return '<link rel="import" href="'.$href.'">';
+     }
 
      function linkmanifest($href = '', $attributes = [])
-    {
-        return '<link rel="manifest" href="'.$href.'">';
-    }
+     {
+         return '<link rel="manifest" href="'.$href.'">';
+     }
 
      function linkrss($href = '', $attributes = [])
-    {
-        return '<link rel="alternate" href="'.$href.'" type="application/rss+xml" title="RSS">';
-    }
+     {
+         return '<link rel="alternate" href="'.$href.'" type="application/rss+xml" title="RSS">';
+     }
 
      function linktouchicon($href = '', $attributes = [])
-    {
-        return '<link rel="apple-touch-icon" href="'.$href.'">';
-    }
+     {
+         return '<link rel="apple-touch-icon" href="'.$href.'">';
+     }
 
      function main($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <main ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <main '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</main>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</main>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function map($name = '', $attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <map name="'.$name.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <map name="'.$name.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</map>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</map>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function maparea($href = '', $shape = '', $cordinate = '', $attributes = [])
-    {
-        return '<area shape="'.$shape.'" coords="'.$cordinate.'" '.$href.' ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-    }
+     {
+         return '<area shape="'.$shape.'" coords="'.$cordinate.'" '.$href.' '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
+
+             return $carry;
+         }, '')).'>';
+     }
 
      function mark($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <mark ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <mark '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</mark>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</mark>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function meter($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <meter ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <meter '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</meter>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</meter>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function noframes($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <noframes ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <noframes '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</noframes>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</noframes>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function noscript($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <noscript ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <noscript '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</noscript>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</noscript>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function object($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <object ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <object '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</object>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</object>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function ol($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <ol ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <ol '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</ol>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</ol>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function optgroup($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <optgroup ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <optgroup '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</optgroup>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</optgroup>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function option($value = '', $attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <option value="'.$value.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <option value="'.$value.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</option>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</option>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function output($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <output ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <output '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</output>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</output>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function param($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <param ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <param '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</param>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</param>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function picture($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <picture ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <picture '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</picture>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</picture>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function pre($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <pre ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <pre '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</pre>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</pre>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function previewer($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <pre ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <pre '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</pre>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</pre>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function preview($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <pre ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <pre '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</pre>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</pre>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function progress($value = '', $max = '100', $attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <progress value="'.$value.'" max="'.$max.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <progress value="'.$value.'" max="'.$max.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
-        $tag .= implode('', $content);
-        // }
-        $tag .= '</progress>
+             return $carry;
+         }, '')).'>';
+
+         // foreach ($content as $result) {
+         $tag .= implode('', $content);
+         // }
+         $tag .= '</progress>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function progressbar($value = '', $max = '100', $attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <progress value="'.$value.'" max="'.$max.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <progress value="'.$value.'" max="'.$max.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
-        $tag .= implode('', $content);
-        // }
-        $tag .= '</progress>
+             return $carry;
+         }, '')).'>';
+
+         // foreach ($content as $result) {
+         $tag .= implode('', $content);
+         // }
+         $tag .= '</progress>
         ';
-        $return = trim($tag);
-    }
+         $return = trim($tag);
+     }
 
      function q($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <q ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <q '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</q>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</q>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function rp($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <rp ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <rp '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</rp>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</rp>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function rt($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <rt ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <rt '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</rt>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</rt>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function ruby($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <ruby ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <ruby '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</ruby>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</ruby>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function s($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <s ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <s '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</s>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</s>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function samp($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <samp ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <samp '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</samp>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</samp>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function script($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <script ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).' reserved>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <script '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).' reserved>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</script>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</script>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function section($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <section ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <section '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</section>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</section>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function select($name = '', $attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <select name="'.$name.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <select name="'.$name.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</select>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</select>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function small($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <small ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <small '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</small>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</small>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function source($source = '', $type = '', $attributes = [])
-    {
-        // // return ' <source src="'.$source.'" type="'.$type.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-        //     $value = $attributes[$key];
-        //     $carry .= "$key=\"$value\" ";
-        //     return $carry;
-        // }, "")).'>';
-        if (strpos($source, 'http') !== false || strpos($source, 'www.') !== false) {
-            $tag = ' <source src="'.$source.'" type="'.$type.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        } else {
-            $tag = ' <source  src="'.Path::rebase($source).'" type="'.$type.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'/>';
-        }
+     {
+         // // return ' <source src="'.$source.'" type="'.$type.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+         //     $value = $attributes[$key];
+         //     $carry .= "$key=\"$value\" ";
+         //     return $carry;
+         // }, "")).'>';
+         if (strpos($source, 'http') !== false || strpos($source, 'www.') !== false) {
+             $tag = ' <source src="'.$source.'" type="'.$type.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
 
-        return $tag;
-    }
+                 return $carry;
+             }, '')).'>';
+         } else {
+             $tag = ' <source  src="'.Path::rebase($source).'" type="'.$type.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+                 $value = $attributes[$key];
+                 $carry .= "$key=\"$value\" ";
+
+                 return $carry;
+             }, '')).'/>';
+         }
+
+         return $tag;
+     }
 
      function span($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <span ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <span '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</span>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</span>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function strike($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <strike ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <strike '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</strike>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</strike>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function strong($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <strong ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <strong '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</strong>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</strong>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function style($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <style ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <style '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</style>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</style>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function sub($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <sub ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <sub '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</sub>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</sub>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function summary($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <summary ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <summary '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</summary>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</summary>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function sup($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <sup ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <sup '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</sup>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</sup>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function superscript($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <sup ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <sup '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</sup>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</sup>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function svg($width = '', $height = '', $attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <svg '.$width.' '.$height.' ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <svg '.$width.' '.$height.' '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
-        $tag .= implode('', $content);
-        // }
-        $tag .= '</svg>
+             return $carry;
+         }, '')).'>';
+
+         // foreach ($content as $result) {
+         $tag .= implode('', $content);
+         // }
+         $tag .= '</svg>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function table($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <table ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <table '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</table>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</table>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function tbody($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <tbody ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <tbody '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</tbody>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</tbody>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function td($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <td ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <td '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</td>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</td>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function template($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <template ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <template '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</template>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</template>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function textarea($name = '', $rows = '', $cols = '', $attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <textarea ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <textarea '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
-        $tag .= implode('', $content);
-        // }
-        $tag .= '</textarea>
+             return $carry;
+         }, '')).'>';
+
+         // foreach ($content as $result) {
+         $tag .= implode('', $content);
+         // }
+         $tag .= '</textarea>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function tfoot($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <tfoot ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <tfoot '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</tfoot>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</tfoot>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function th($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <th ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <th '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</th>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</th>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function thead($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <th ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <th '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</th>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</th>
         ';
 
-        return trim($tag);
-    }
-
-   
+         return trim($tag);
+     }
 
      function tr($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <tr ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <tr '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</tr>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</tr>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function track($attributes = [])
-    {
-        return' <track ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-    }
+     {
+         return' <track '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
+
+             return $carry;
+         }, '')).'>';
+     }
 
      function tt($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <tt ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <tt '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</tt>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</tt>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function u($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <u ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <u '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</u>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</u>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function ul($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <ul ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <ul '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</ul>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</ul>
         ';
 
-        return trim($tag);
-    }
-
-     
+         return trim($tag);
+     }
 
      function video($source = '', $width = '', $height = '', $type = '', $attributes = [])
-    {
-        $tag = ' <video width="'.$width.'" height="$'.$height.'" ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).' controls>';
+     {
+         $tag = ' <video width="'.$width.'" height="$'.$height.'" '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        if (strpos($source, 'http') !== false || strpos($source, 'www.') !== false) {
-            $tag .= '<source src="'.$source.'" type="'.$type.'">Your browser does not support the video tag.';
-        } else {
-            $tag .= '<source src="'.Path::rebase($source).'" type="'.$type.'">Your browser does not support the video tag.';
-        }
+             return $carry;
+         }, '')).' controls>';
 
-        return $tag;
+         if (strpos($source, 'http') !== false || strpos($source, 'www.') !== false) {
+             $tag .= '<source src="'.$source.'" type="'.$type.'">Your browser does not support the video tag.';
+         } else {
+             $tag .= '<source src="'.Path::rebase($source).'" type="'.$type.'">Your browser does not support the video tag.';
+         }
 
-        $tag .= '</video>
+         return $tag;
+
+         $tag .= '</video>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function wbr($attributes = [], $content = [])
-    {
-        if (is_array($content)) {
-        } else {
-            $content = [$content];
-        }
-        $tag = ' <wbr ' .(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
-            $value = $attributes[$key];
-            $carry .= "$key=\"$value\" ";
-            return $carry;
-        }, "")).'>';
-        $tag .= implode('', $content);
+     {
+         if (is_array($content)) {
+         } else {
+             $content = [$content];
+         }
+         $tag = ' <wbr '.(array_reduce(array_keys($attributes), function ($carry, $key) use ($attributes) {
+             $value = $attributes[$key];
+             $carry .= "$key=\"$value\" ";
 
-        // foreach ($content as $result) {
+             return $carry;
+         }, '')).'>';
+         $tag .= implode('', $content);
 
-        // }
-        $tag .= '</wbr>
+         // foreach ($content as $result) {
+
+         // }
+         $tag .= '</wbr>
         ';
 
-        return trim($tag);
-    }
+         return trim($tag);
+     }
 
      function doctype()
-    {
-        return'<!DOCTYPE html>';
-    }
+     {
+         return'<!DOCTYPE html>';
+     }
 
      function linkphp($url)
-    {
-        return $url;
-    }
+     {
+         return $url;
+     }

@@ -773,17 +773,131 @@ class admin
     public function listpits()
     {
         $res = fetchall('pit');
+        $result ='';
         foreach ($res as $row) {
-            echo '<option value="'.$row['pid'].'">'.$row['pit_name'].'</option>';
+            $result .= '<option value="'.$row['pid'].'">'.$row['pit_name'].' -'.$row['fuel'].'L</option>';
         }
+
+        return $result;
     }
 
     // listtruck
     public function listrucks()
     {
         $res = fetchall('trucks');
+        $result ='';
         foreach ($res as $row) {
-            echo '<option value="'.$row['tid'].'">'.$row['truck_name'].'</option>';
+            $result .= '<option value="'.$row['tid'].'">'.$row['truck_name'].'</option>';
+        }
+        return $result;
+    }
+
+    // trips
+
+    public function gettrips()
+    {
+        $res = fetchall('trips', ['tripid' => 'DESC']);
+
+        foreach ($res as $row) {
+            $pit = customfetch('pit', [['pid', '=', $row['pid']]]);
+            $truck = customfetch('trucks', [['tid', '=', $row['tid']]]);
+            $truck = $truck[0]['truck_name'];
+            $pit = $pit[0]['pit_name'];
+            echo '<tr>
+            <td>'.$row['tripid'].'</td>
+            <td>'.$pit.'</td>
+            <td>'.$truck.'</td>
+            <td>'.$row['gross'].'</td>
+            <td>'.$row['tare'].'</td>
+            <td>'.$row['net'].'</td>
+            <td>'.$row['fuel'].'L</td>
+            <td>'.$row['time_in'].'</td>
+            <td>'.$row['time_out'].'</td>
+            <td>'.$row['date_created'].'</td>
+            <td><!--<button class="btn btn-primary viewfaculty" id="'.$row['tripid'].'"   data-izimodal-open="#viewfaculty" data-izimodal-transitionin="fadeInDown"><i class="fa fa-eye"></i></button>--> <button class="btn btn-secondary btngettrip" id="'.$row['tripid'].'"  data-izimodal-open="#editfaculty" data-izimodal-transitionin="fadeInDown"><i class="fa fa-edit"></i></button> </td>
+            </tr>';
         }
     }
+
+
+    public function gettrip($tripid){
+        $res = customfetch('trips',[['tripid','=',$tripid]]);
+        $row = $res[0];
+        $pit = customfetch('pit',[['pid','=',$row['pid']]]);
+        $pit = $pit[0]['pit_name'];
+        $truck = customfetch('trucks',[['tid','=',$row['tid']]]);
+        $truck = $truck[0]['truck_name'];
+        
+
+        echo '<div class="card-body">
+
+
+        <div class="form-group">
+          <label>Select Pit</label>
+          <select class="form-control select2 " style="width: 100%;"
+              data-select2-id="1" tabindex="-1" aria-hidden="true" name="pid">
+
+              <option value="'.$row['pid'].'">'.$pit.'</option>
+               '.$this->listpits().'
+              
+          </select>
+          <!--  -->
+        </div>
+
+
+
+        <div class="form-group">
+          <label>Select Truck</label>
+          <select class="form-control select2 " style="width: 100%;"
+              data-select2-id="1" tabindex="-1" aria-hidden="true" name="tid">
+              <option value="'.$row['tid'].'">'.$truck.'</option>
+              '.$this->listrucks().'
+              
+          </select>
+          <!--  -->
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Gross Weight (weight of truck + weight of load)</label>
+          <input type="number" class="form-control" id="gw" placeholder="" name="gross" value="'.$row['gross'].'">
+          <input type="hidden" class="form-control" id="gw" placeholder="" name="tripid" value="'.$row['tripid'].'">
+        </div>
+
+
+        <div class="form-group">
+          <label for="exampleInputEmail1">Tare Weight( Weight of truck only)</label>
+          <input type="number" class="form-control" id="tw" placeholder="" name="tare" value="'.$row['tare'].'">
+        </div>
+
+        <div class="form-group">
+        <label for="exampleInputEmail1">Net weight</label>
+        <input type="number" class="form-control" id="netwaight" placeholder="" name="netw" disabled value="'.$row['net'].'">
+        </div>
+
+        <div class="form-group">
+        <label for="exampleInputEmail1">Time in</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="time_in" value="'.$row['time_in'].'">
+        </div>
+
+        <div class="form-group">
+        <label for="exampleInputEmail1">Time Out</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="time_out" value="'.$row['time_out'].'">
+        </div>
+
+        
+
+        
+
+        
+
+
+        
+
+        
+
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>';
+
+    }
+
 }

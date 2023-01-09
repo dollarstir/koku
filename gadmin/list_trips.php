@@ -46,7 +46,7 @@ $admin = new Admin();
                     <!-- add faculty -->
                     
                     <!-- add faculty -->
-                    <div><button type="button" class="btn btn-primary" data-izimodal-open="#addfacultymodal" style="margin:10px;" data-izimodal-transitionin="fadeInDown">Add Trip</button></div>
+                    <div><button type="button" class="btn btn-primary" data-izimodal-open="#addfacultymodal" style="margin:10px;" data-izimodal-transitionin="fadeInDown">Add Trip</button> <h5 style="float:right;">TOTAL TRIPS :  <span class="badge badge-secondary right" id="cttrip"><?= countall('trips') ?></span>  TOTAL Fuel :  <span class="badge badge-secondary right" id="ctfuel"><?=sumall('trips','fuel') ?></span></h5></div>
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                       <tr>
@@ -65,13 +65,20 @@ $admin = new Admin();
                     </thead>
                     <tbody id="tblfaculty">
 
-                    <?php  ?>
+                    <?php
+                    $admin = new admin();
+                    $admin->gettrips();
+                    ?>
                       
                         
                       
                      
                     </tbody>
                     <tfoot>
+                      
+
+                        
+                      
                       <tr>
                       <th>#</th>
                         <th>Pit</th>
@@ -91,7 +98,7 @@ $admin = new Admin();
 
                 <!-- eidt modal -->
                 <div id="editfaculty"  data-iziModal-icon="fa fa-edit">
-                    <form class="editfaculty">
+                    <form class="edittrip">
                     
                     </form>
 
@@ -119,7 +126,7 @@ $admin = new Admin();
                           <label>Select Pit</label>
                           <select class="form-control select2 select2-hidden-accessible" style="width: 100%;"
                               data-select2-id="1" tabindex="-1" aria-hidden="true" name="pid">
-                              <?php $admin->listpits(); ?>
+                              <?= $admin->listpits(); ?>
                               
                           </select>
                           <!--  -->
@@ -131,7 +138,7 @@ $admin = new Admin();
                           <label>Select Truck</label>
                           <select class="form-control select2 select2-hidden-accessible" style="width: 100%;"
                               data-select2-id="1" tabindex="-1" aria-hidden="true" name="tid">
-                              <?php $admin->listrucks(); ?>
+                              <?= $admin->listrucks(); ?>
                               
                           </select>
                           <!--  -->

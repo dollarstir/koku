@@ -4,7 +4,7 @@ $(function(){
     //*********************************** */
 
   $('#editfaculty').iziModal({
-    title: 'Edit Faculty',
+    title: 'Edit Trip',
     // icon: 'fa fa-eye',
     
     headerColor: '#5A6268',
@@ -192,7 +192,7 @@ $('#editposition').iziModal({
 
   // calculate net weight
 
-  $('#gw').on('input',function(){
+  $(document).on('input','#gw',function(){
       if($('#tw').val() == ''){
         $('#netwaight').val($(this).val() - 0 );
       }
@@ -202,7 +202,7 @@ $('#editposition').iziModal({
   })
 
 
-  $('#tw').on('input',function(){
+  $(document).on('input','#tw',function(){
     if($('#gw').val() == ''){
       $('#netwaight').val($(this).val() - 0 );
     }

@@ -18,6 +18,12 @@ $(function(){
             $('form').trigger('reset');
             $('#'+ response.tbl).load('processor/processor.php?action='+response.action);
             $('#'+ response.modalid).iziModal('close');
+            $('#cttrips').load('processor/processor.php?action=counttrips');
+            $('#cttrip').load('processor/processor.php?action=counttrips');
+            $('#ctfuel').load('processor/processor.php?action=sumfuel');
+            $('#cttrucks').load('processor/processor.php?action=counttrucks');
+            $('#ctpits').load('processor/processor.php?action=countpits');
+            
         }
 
         else if(response.type == "success" &&  response.msg == "updated"){
@@ -86,11 +92,11 @@ $(function(){
 // ****************************************************************************************
 
 // add faculty
-$('.addfaculty').submit(function(e){
+$('.addtrip').submit(function(e){
 
     e.preventDefault();
     var user = {
-        url: 'processor/processor.php?action=addfaculty',
+        url: 'processor/processor.php?action=addtrip',
         type: 'post',
         data: new FormData(this),
         cache: false,
@@ -103,15 +109,15 @@ $('.addfaculty').submit(function(e){
     };
     $.ajax(user);
 });
-// get faculty
-$(document).on('click','.btngetfaculty',function(){
-  var fid = $(this).attr('id');
+// get faculty now get trips
+$(document).on('click','.btngettrip',function(){
+  var tripid = $(this).attr('id');
   var user = {
-    url: 'processor/processor.php?action=getfaculty',
+    url: 'processor/processor.php?action=gettrip',
     type: 'post',
-    data: {'fid':fid},
+    data: {'tripid':tripid},
     success: function(response){
-      $('.editfaculty').html(response);
+      $('.edittrip').html(response);
     }
 
   };
@@ -121,11 +127,11 @@ $(document).on('click','.btngetfaculty',function(){
 
 // edit faculty
 
-$('.editfaculty').submit(function(e){
+$('.edittrip').submit(function(e){
 
   e.preventDefault();
   var user = {
-      url: 'processor/processor.php?action=editfaculty',
+      url: 'processor/processor.php?action=edittrip',
       type: 'post',
       data: new FormData(this),
       cache: false,

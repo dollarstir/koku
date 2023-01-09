@@ -7,30 +7,53 @@ if (isset($_GET['action'])) {
         // ***********************************
         // * Faculty
         // ***********************************\
-        case 'addfaculty':
+        case 'addtrip':
             extract($_POST);
             $admin = new admin();
+            $fu = customfetch('pit', [['pid', '=', $pid]]);
+            $fuel = $fu[0]['fuel'];
             $data = [
-                'faculty_name' => $faculty_name,
-                'faculty_code' => $faculty_code,
-                'faculty_description' => $faculty_description,
-                'name_of_factory' => $name_of_factory,
-                'product_production' => $product_production,
-                'license_code' => $license_code,
-                'business_address' => $business_address,
-                'faculty_status' => $faculty_status,
-                'created_at' => date('Y-m-d'), ];
-                if (empty($faculty_name) || empty($faculty_code) || empty($name_of_factory) || empty($product_production) || empty($license_code) || empty($business_address) || empty($faculty_status)) {
+                'pid' => $pid,
+                'tid' => $tid,
+                'gross' => $gross,
+                'tare' => $tare,
+                'net' => floatval($gross) - floatval($tare),
+                'time_in' => $time_in,
+                'time_out' => $time_out,
+                'fuel' => $fuel,
+                'date_created' => date('Y-m-d'), ];
+                if (empty($gross) || empty($tare) || empty($pid) || empty($tid) || empty($time_in) || empty($time_out)) {
                     echo json_encode(['type' => 'warning', 'msg' => 'All fields are required']);
                 } else {
-                    echo   json_encode($admin->addrecord('faculty', [['faculty_code', '=', $faculty_code]], $data, 'success', 'AND', ['table' => 'tblfaculty', 'action' => 'getfaculties', 'modalid' => 'addfacultymodal']));
+                    echo   json_encode($admin->addrecord('trips', '', $data, 'success', 'AND', ['table' => 'tblfaculty', 'action' => 'gettrips', 'modalid' => 'addfacultymodal']));
                 }
             break;
 
-        case 'getfaculty':
+        case 'gettrips':
+            $admin = new Admin();
+            $admin->gettrips();
+            break;
+
+        case "counttrips":
+            echo countall('trips');
+            break;
+
+        case "counttrucks":
+            echo countall('trucks');
+            break;
+
+        case "countpits":
+            echo countall('pit');
+            break;
+
+        case 'sumfuel':
+            echo sumall('trips','fuel');
+            break;
+
+        case 'gettrip':
             extract($_POST);
             $admin = new admin();
-             $admin->getfaculty($fid);
+             $admin->gettrip($tripid);
             break;
 
         case 'facultydetails':
@@ -44,19 +67,21 @@ if (isset($_GET['action'])) {
             $admin->getfaculties();
             break;
 
-        case 'editfaculty':
+        case 'edittrip':
             extract($_POST);
             $admin = new admin();
-            echo json_encode($admin->editrecord('faculty', [
-                'faculty_name' => $faculty_name,
-                'faculty_code' => $faculty_code,
-                'faculty_description' => $faculty_description,
-                'name_of_factory' => $name_of_factory,
-                'product_production' => $product_production,
-                'license_code' => $license_code,
-                'business_address' => $business_address,
-                'faculty_status' => $faculty_status,
-                ], ['fid' => $fid], 'updated', ['table' => 'tblfaculty', 'action' => 'getfaculties', 'modalid' => 'editfaculty']));
+            $fu = customfetch('pit', [['pid', '=', $pid]]);
+            $fuel = $fu[0]['fuel'];
+            echo json_encode($admin->editrecord('trips', [
+                'pid' => $pid,
+                'tid' => $tid,
+                'time_in' => $time_in,
+                'gross' => $gross,
+                'tare' => $tare,
+                'time_out' => $time_out,
+                'net' => floatval($gross) - floatval($tare),
+                'fuel' => $fuel,
+                ], ['tripid' => $tripid], 'updated', ['table' => 'tblfaculty', 'action' => 'gettrips', 'modalid' => 'editfaculty']));
             break;
         case 'deletefaculty':
             extract($_POST);
