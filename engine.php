@@ -56,58 +56,23 @@ $router = new Router([
     ),
 
     new Route(
-        '/newdepartment',
+        '/pits',
         function ($context) {
-            return Viewer::view('gadmin/add_department.php', $context);
+            return Viewer::view('gadmin/list_pits.php', $context);
         }
     ),
 
     new Route(
-        '/departments',
+        '/trucks',
         function ($context) {
-            return Viewer::view('gadmin/list_departments.php', $context);
+            return Viewer::view('gadmin/list_trucks.php', $context);
         }
     ),
 
     new Route(
-        '/newprogramme',
+        '/admins',
         function ($context) {
-            return Viewer::view('gadmin/add_programme.php', $context);
-        }
-    ),
-
-    new Route(
-        '/programmes',
-        function ($context) {
-            return Viewer::view('gadmin/list_programmes.php', $context);
-        }
-    ),
-
-    new Route(
-        '/newcourse',
-        function ($context) {
-            return Viewer::view('gadmin/add_course.php', $context);
-        }
-    ),
-
-    new Route(
-        '/courses',
-        function ($context) {
-            return Viewer::view('gadmin/list_courses.php', $context);
-        }
-    ),
-
-    new Route(
-        '/newposition',
-        function ($context) {
-            return Viewer::view('gadmin/add_position.php', $context);
-        }
-    ),
-
-    new Route(
-        '/positions',
-        function ($context) {
-            return Viewer::view('gadmin/list_positions.php', $context);
+            return Viewer::view('gadmin/list_admins.php', $context);
         }
     ),
 ]);

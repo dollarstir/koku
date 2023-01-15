@@ -5,7 +5,7 @@ require '../fragement/admin.php';
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
         // ***********************************
-        // * Faculty
+        // * Pit
         // ***********************************\
         case 'addtrip':
             extract($_POST);
@@ -34,20 +34,20 @@ if (isset($_GET['action'])) {
             $admin->gettrips();
             break;
 
-        case "counttrips":
+        case 'counttrips':
             echo countall('trips');
             break;
 
-        case "counttrucks":
+        case 'counttrucks':
             echo countall('trucks');
             break;
 
-        case "countpits":
+        case 'countpits':
             echo countall('pit');
             break;
 
         case 'sumfuel':
-            echo sumall('trips','fuel');
+            echo sumall('trips', 'fuel');
             break;
 
         case 'gettrip':
@@ -88,228 +88,82 @@ if (isset($_GET['action'])) {
             $admin = new admin();
             echo json_encode($admin->deleterecord('faculty', [['fid', '=', $fid]], '', 'deleted', ['table' => 'tblfaculty', 'action' => 'getfaculties']));
             break;
-            // ***********************************
-            // * Department
-            // ***********************************
-        case 'adddepartment':
-            extract($_POST);
-            if (empty(trim($department_name)) || empty(trim($department_code)) || empty(trim($department_description)) || empty(trim($faculty)) || empty(trim($department_status))) {
-                echo json_encode(['type' => 'warning', 'msg' => 'All fields are required']);
-            } else {
-                $admin = new admin();
-                echo json_encode($admin->addrecord('department', [['department_code', '=', $department_code]], [
-                'department_name' => $department_name,
-                'department_code' => $department_code,
-                'department_description' => $department_description,
-                'faculty' => $faculty,
-                'department_status' => $department_status,
-                'created_at' => date('Y-m-d'), ], 'success', 'AND', ['table' => 'tbldepartment', 'action' => 'getdepartments', 'modalid' => 'adddepartmentmodal']));
-            }
 
-            break;
-        case 'getdepartments':
+            // addPits
+        case 'addpit':
             extract($_POST);
             $admin = new admin();
-            $admin->getdepartments();
-            break;
 
-        case 'getdepartment':
-            extract($_POST);
-            $admin = new admin();
-            $admin->viewdepartmentform($did);
-
-            break;
-
-        case 'departmentdetails':
-            extract($_POST);
-            $admin = new admin();
-            $admin->departmentdetails($did);
-            break;
-
-        case 'editdepartment':
-            extract($_POST);
-            $admin = new admin();
-            echo json_encode($admin->editrecord('department', [
-                'department_name' => $department_name,
-                'department_code' => $department_code,
-                'department_description' => $department_description,
-                'faculty' => $faculty,
-                'department_status' => $department_status,
-                ], ['did' => $did], 'updated', ['table' => 'tbldepartment', 'action' => 'getdepartments', 'modalid' => 'editdepartment']));
-
-            break;
-
-        case 'deletedepartment':
-            extract($_POST);
-            $admin = new admin();
-            echo json_encode($admin->deleterecord('department', [['did', '=', $did]], '', 'deleted', ['table' => 'tbldepartment', 'action' => 'getdepartments']));
-            break;
-            // ****************************************************************************
-            // * Program
-            // ****************************************************************************
-        case 'adddprogramme':
-            extract($_POST);
-            $admin = new admin();
-            if (empty(trim($programme_name)) || empty(trim($programme_code)) || empty(trim($programme_description)) || empty(trim($department_id)) || empty(trim($programme_status))) {
-                echo json_encode(['type' => 'warning', 'msg' => 'All fields are required']);
-            } else {
-                echo json_encode($admin->addrecord('programme', [['programme_code', '=', $programme_code]],
-                 ['programme_name' => $programme_name,
-                'programme_code' => $programme_code,
-                'programme_description' => $programme_description,
-                'department_id' => $department_id,
-                'programme_status' => $programme_status,
-                'created_at' => date('Y-m-d'), ], 'success', 'AND', ['table' => 'tblprogramme', 'action' => 'getprogrammes', 'modalid' => 'addprogrammemodal']));
-            }
-
-            break;
-
-        case 'getprogrammes':
-            $admin = new admin();
-            $admin->getprogrammes();
-            break;
-
-        case 'getprogramme':
-            extract($_POST);
-            $admin = new admin();
-            $admin->viewprogrammeform($pid);
-            break;
-
-            case 'programmedetails':
-            extract($_POST);
-            $admin = new admin();
-            $admin->programmedetails($pid);
-            break;
-
-        case 'editprogramme':
-            extract($_POST);
-            $admin = new admin();
-            if (empty(trim($programme_name)) || empty(trim($programme_code)) || empty(trim($programme_description)) || empty(trim($department_id)) || empty(trim($programme_status))) {
-                echo json_encode(['type' => 'warning', 'msg' => 'All fields are required']);
-            } else {
-                echo json_encode($admin->editrecord('programme', [
-                    'programme_name' => $programme_name,
-                    'programme_code' => $programme_code,
-                    'programme_description' => $programme_description,
-                    'department_id' => $department_id,
-                    'programme_status' => $programme_status,
-                    ], ['pid' => $pid], 'updated', ['table' => 'tblprogramme', 'action' => 'getprogrammes', 'modalid' => 'editprogramme']));
-            }
-            break;
-
-        case 'deletedprogramme':
-                extract($_POST);
-                $admin = new admin();
-                echo json_encode($admin->deleterecord('programme', [['pid', '=', $pid]], '', 'deleted', ['table' => 'tblprogramme', 'action' => 'getprogrammes']));
-            break;
-
-            // ****************************************************************************
-            // * Course
-            // ****************************************************************************
-        case 'addcourse':
-            extract($_POST);
-            $admin = new admin();
-            if (empty(trim($course_name)) || empty(trim($course_code)) || empty(trim($course_description)) || empty(trim($course_credit)) || empty(trim($programme_id)) || empty(trim($course_status))) {
-                echo json_encode(['type' => 'warning', 'msg' => 'All fields are required']);
-            } else {
-                echo json_encode($admin->addrecord('course', [['course_code', '=', $course_code]],
-                 ['course_name' => $course_name,
-                'course_code' => $course_code,
-                'course_credit' => $course_credit,
-                'course_description' => $course_description,
-                'programme_id' => $programme_id,
-                'course_status' => $course_status,
-                'created_at' => date('Y-m-d'), ], 'success', 'AND', ['table' => 'tblcourse', 'action' => 'getcourses', 'modalid' => 'addcoursemodal']));
-            }
-
-            break;
-        case 'getcourses':
-                    $admin = new admin();
-                    $admin->getcourses();
-            break;
-
-        case 'getcourse':
-            extract($_POST);
-            $admin = new admin();
-            $admin->viewcourseform($cid);
-            break;
-
-        case 'coursedetails':
-            extract($_POST);
-            $admin = new admin();
-            $admin->coursedetails($cid);
-            break;
-            case'editcourse':
-            extract($_POST);
-            $admin = new admin();
-            if (empty(trim($course_name)) || empty(trim($course_code)) || empty(trim($course_description)) || empty(trim($course_credit)) || empty(trim($programme_id)) || empty(trim($course_status))) {
-                echo json_encode(['type' => 'warning', 'msg' => 'All fields are required']);
-            } else {
-                echo json_encode($admin->editrecord('course', [
-                    'course_name' => $course_name,
-                    'course_code' => $course_code,
-                    'course_credit' => $course_credit,
-                    'course_description' => $course_description,
-                    'programme_id' => $programme_id,
-                    'course_status' => $course_status,
-                    ], ['cid' => $cid], 'updated', ['table' => 'tblcourse', 'action' => 'getcourses', 'modalid' => 'editcourse']));
-            }
-            break;
-        case 'deletecourse':
-            extract($_POST);
-            $admin = new admin();
-            echo json_encode($admin->deleterecord('course', [['cid', '=', $cid]], '', 'deleted', ['table' => 'tblcourse', 'action' => 'getcourses']));
-
-            break;
-
-            // ****************************************************************************
-            // * Position
-            // ****************************************************************************
-
-        case 'addposition':
-            extract($_POST);
-            $admin = new admin();
-                if (empty(trim($position_name)) || empty(trim($position_status))) {
+            $data = [
+                'pit_name' => $pit_name,
+                'fuel' => $fuel,
+                'date_created' => date('Y-m-d'), ];
+                if (empty($pit_name) || empty($fuel)) {
                     echo json_encode(['type' => 'warning', 'msg' => 'All fields are required']);
                 } else {
-                    echo json_encode($admin->addrecord('pos', [['position_name', '=', $position_name]],
-                     [
-                        'position_name' => $position_name,
-                        'position_status' => $position_status,
-                        'created_at' => date('Y-m-d'), ], 'success', 'AND', ['table' => 'tblposition', 'action' => 'getpositions', 'modalid' => 'addpositionmodal']));
+                    echo   json_encode($admin->addrecord('pit', '', $data, 'success', 'AND', ['table' => 'tblpit', 'action' => 'getpit', 'modalid' => 'addpit']));
                 }
+
             break;
 
-        case 'getpositions':
-                $admin = new admin();
-                $admin->getpositions();
-            break;
-
-        case 'getposition':
-            extract($_POST);
-
+        case 'getpit':
             $admin = new admin();
-            $admin->viewpositionform($position_id);
+            $admin->getpits();
+            break;
+
+        case 'getsinglepit':
+            $admin = new admin();
+            extract($_POST);
+            $admin->getpit($pid);
 
             break;
 
-        case 'editposition':
+        case 'editpit':
             extract($_POST);
             $admin = new admin();
-            if (empty(trim($position_name)) || empty(trim($position_status))) {
+            echo json_encode($admin->editrecord('pit', [
+                'pit_name' => $pit_name,
+                'fuel' => $fuel,
+                ], ['pid' => $pid], 'updated', ['table' => 'tblpit', 'action' => 'getpit', 'modalid' => 'editpit']));
+            break;
+
+            // ***********************************
+            // * Trucks
+            // ***********************************\
+        case 'addtruck':
+            extract($_POST);
+            $admin = new admin();
+            if (empty($truck_name) || empty($truck_number)) {
                 echo json_encode(['type' => 'warning', 'msg' => 'All fields are required']);
             } else {
-                echo json_encode($admin->editrecord('pos', [
-                    'position_name' => $position_name,
-                    'position_status' => $position_status,
-                    ], ['position_id' => $position_id], 'updated', ['table' => 'tblposition', 'action' => 'getpositions', 'modalid' => 'editposition']));
+                $data = [
+                    'truck_name' => $truck_name,
+                    'truck_number' => $truck_number,
+                    'date_created' => date('Y-m-d'), ];
+                echo   json_encode($admin->addrecord('trucks', '', $data, 'success', 'AND', ['table' => 'tbltruck', 'action' => 'gettruck', 'modalid' => 'addtruck']));
             }
+            break;
+
+        case 'gettruck':
+            $admin = new admin();
+            $admin->gettrucks();
 
             break;
-        case 'deleteposition':
+
+        case 'getsingletruck':
+            $admin = new admin();
+            extract($_POST);
+            $admin->gettruck($tid);
+
+            break;
+
+        case 'edittruck':
             extract($_POST);
             $admin = new admin();
-            echo json_encode($admin->deleterecord('pos', [['position_id', '=', $position_id]], '', 'deleted', ['table' => 'tblposition', 'action' => 'getpositions']));
+            echo json_encode($admin->editrecord('trucks', [
+                'truck_name' => $truck_name,
+                'truck_number' => $truck_number,
+                ], ['tid' => $tid], 'updated', ['table' => 'tbltruck', 'action' => 'gettruck', 'modalid' => 'edittruck']));
             break;
             default:
 

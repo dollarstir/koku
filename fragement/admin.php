@@ -307,464 +307,6 @@ class admin
     </div>';
     }
 
-    public function departmentdetails($did)
-    {
-        $select = new sel();
-        $res = $select->select('department', [['did', '=', $did]]);
-        $row = $res[0];
-        $fc = $select->select('faculty', [['fid', '=', $row['faculty']]]);
-        $faculty = $fc[0]['faculty_name'];
-        if ($row['department_status'] == 'active') {
-            $status = '<span class="badge badge-success">Active</span>';
-        } else {
-            $status = '<span class="badge badge-danger">Inactive</span>';
-        }
-
-        echo '<tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Department Name</td>
-
-        <td id="viewstatus">'.$row['department_name'].'</td>
-        </tr>
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Department Code</td>
-
-        <td id="viewstatus">'.$row['department_code'].'</td>
-
-        </tr>
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Department Description</td>
-
-        <td id="viewstatus">'.$row['department_description'].'</td>
-
-        </tr>
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Faculty Name</td>
-
-        <td id="viewstatus">'.$faculty.'</td>
-
-        </tr>
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Department Status</td>
-
-        <td id="viewstatus">'.$status.'</td>
-
-        </tr>
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Created on</td>
-
-        <td id="viewstatus">'.$row['created_at'].'</td>
-        </tr>
-        ';
-    }
-
-    public function departmentoptions()
-    {
-        $select = new sel();
-        $res = $select->select('department', [['department_status', '=', 'active']]);
-        $msg = '';
-        foreach ($res as $row) {
-            $msg .= '<option value="'.$row['did'].'">'.$row['department_name'].'</option>';
-        }
-
-        return $msg;
-    }
-
-    // *********************************** Programme ***********************************
-    // *********************************** Programme ***********************************
-    // *********************************** Programme ***********************************
-
-    public function getprogrammes()
-    {
-        $select = new sel();
-        $res = fetchall('programme');
-        foreach ($res as $value) {
-            $dp = $select->select('department', [['did', '=', $value['department_id']]]);
-            $department = $dp[0]['department_name'];
-            if ($value['programme_status'] == 'active') {
-                $value['programme_status'] = '<span class="badge badge-success">Active</span>';
-            }
-            if ($value['programme_status'] == 'inactive') {
-                $value['programme_status'] = '<span class="badge badge-danger">Inactive</span>';
-            }
-            echo '<tr>
-        <td>'.$value['pid'].'</td>
-        <td>'.$value['programme_name'].'</td>
-        <td>'.$value['programme_code'].'</td>
-        <td>'.$department.'</td>
-        <td>'.$value['programme_status'].'</td>
-        <td><button class="btn btn-primary viewprogramme" id="'.$value['pid'].'"   data-izimodal-open="#viewprogramme" data-izimodal-transitionin="fadeInDown"><i class="fa fa-eye"></i></button> <button class="btn btn-secondary btngetprogramme" id="'.$value['pid'].'"  data-izimodal-open="#editprogramme" data-izimodal-transitionin="fadeInDown"><i class="fa fa-edit"></i></button> <button class="btn btn-danger deleteprogramme" id="'.$value['pid'].'"><i class="fa fa-trash"></i></button></td>
-        </tr>';
-        }
-    }
-
-    public function viewprogrammeform($pid)
-    {
-        $select = new sel();
-        $res = $select->select('programme', [['pid', '=', $pid]]);
-        $row = $res[0];
-        $dp = $select->select('department', [['did', '=', $row['department_id']]]);
-
-        $department = $dp[0]['department_name'];
-        $admin = new admin();
-        echo '<div class="card-body">
-        <div class="form-group">
-        <label for="exampleInputEmail1">Name of Programme</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="programme_name" value="'.$row['programme_name'].'">
-        </div>
-
-        <div class="form-group">
-        <label for="exampleInputEmail1">Programme Code</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="programme_code" value="'.$row['programme_code'].'">
-
-        <input type="hidden" class="form-control" id="exampleInputEmail1" placeholder="" name="pid" value="'.$row['pid'].'">
-        </div>
-
-        
-
-        <div class="form-group">
-        <label for="exampleInputEmail1">Programme Description</label>
-        <textarea  class="form-control" id="exampleInputEmail1" name="programme_description">'.$row['programme_description'].'</textarea>
-        </div>
-
-        
-        
-        <div class="form-group">
-        <label>Department Name</label>
-        <select class="form-control select2 " style="width: 100%;"
-            data-select2-id="2" tabindex="-1" aria-hidden="true" name="department_id">
-            <option value="'.$row['department_id'].'">'.$department.'</option>
-           
-
-            '.$admin->departmentoptions().'
-            
-        </select>
-        <!--  -->
-        </div>
-
-
-        <div class="form-group">
-        <label>Programme status</label>
-        <select class="form-control select2 " style="width: 100%;"
-            data-select2-id="1" tabindex="-1" aria-hidden="true" name="programme_status">
-            <option value="'.$row['programme_status'].'">'.$row['programme_status'].'</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-            
-        </select>
-        <!--  -->
-        </div>
-
-    <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>';
-    }
-
-    public function programmedetails($pid)
-    {
-        $select = new sel();
-        $res = $select->select('programme', [['pid', '=', $pid]]);
-        $row = $res[0];
-        $dp = $select->select('department', [['did', '=', $row['department_id']]]);
-
-        $department = $dp[0]['department_name'];
-        $admin = new admin();
-        if ($row['programme_status'] == 'active') {
-            $status = '<span class="badge badge-success">Active</span>';
-        }
-        if ($row['programme_status'] == 'inactive') {
-            $status = '<span class="badge badge-danger">Inactive</span>';
-        }
-        echo '<tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Programme Name</td>
-
-        <td id="viewstatus">'.$row['programme_name'].'</td>
-        </tr>
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Programme Code</td>
-
-        <td id="viewstatus">'.$row['programme_code'].'</td>
-
-        </tr>
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Programme Description</td>
-
-        <td id="viewstatus">'.$row['programme_description'].'</td>
-
-        </tr>
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Department Name</td>
-
-        <td id="viewstatus">'.$department.'</td>
-
-        </tr>
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Programme Status</td>
-
-        <td id="viewstatus">'.$status.'</td>
-
-        </tr>
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Created on</td>
-
-        <td id="viewstatus">'.$row['created_at'].'</td>
-        </tr>
-        ';
-    }
-
-    public function programmeoptions()
-    {
-        $select = new sel();
-        $res = $select->select('programme', [['programme_status', '=', 'active']]);
-        $msg = '';
-        foreach ($res as $row) {
-            $msg .= '<option value="'.$row['pid'].'">'.$row['programme_name'].'</option>';
-        }
-
-        return $msg;
-    }
-
-    // ************** COURSE ***********************************************
-    // ************** COURSE ***********************************************
-    // ************** COURSE ***********************************************
-    public function getcourses()
-    {
-        $select = new sel();
-        $res = fetchall('course');
-        foreach ($res as $value) {
-            $dp = $select->select('programme', [['pid', '=', $value['programme_id']]]);
-            $programme = $dp[0]['programme_name'];
-            if ($value['course_status'] == 'active') {
-                $value['course_status'] = '<span class="badge badge-success">Active</span>';
-            }
-            if ($value['course_status'] == 'inactive') {
-                $value['course_status'] = '<span class="badge badge-danger">Inactive</span>';
-            }
-            echo '<tr>
-            <td>'.$value['cid'].'</td>
-            <td>'.$value['course_name'].'</td>
-            <td>'.$value['course_code'].'</td>
-            <td>'.$value['course_credit'].'</td>
-            <td>'.$programme.'</td>
-            <td>'.$value['course_status'].'</td>
-            <td><button class="btn btn-primary viewcourse" id="'.$value['cid'].'"   data-izimodal-open="#viewcourse" data-izimodal-transitionin="fadeInDown"><i class="fa fa-eye"></i></button> <button class="btn btn-secondary btngetcourse" id="'.$value['cid'].'"  data-izimodal-open="#editcourse" data-izimodal-transitionin="fadeInDown"><i class="fa fa-edit"></i></button> <button class="btn btn-danger deletecourse" id="'.$value['cid'].'"><i class="fa fa-trash"></i></button></td>
-            </tr>';
-        }
-    }
-
-    public function viewcourseform($cid)
-    {
-        $select = new sel();
-        $res = $select->select('course', [['cid', '=', $cid]]);
-        $row = $res[0];
-        $dp = $select->select('programme', [['pid', '=', $row['programme_id']]]);
-
-        $programme = $dp[0]['programme_name'];
-        $admin = new admin();
-
-        if ($row['course_status'] == 'active') {
-            $status = 'Active';
-        }
-        if ($row['course_status'] == 'inactive') {
-            $status = 'Inactive';
-        }
-
-        echo '<div class="card-body">
-        <div class="form-group">
-        <label for="exampleInputEmail1">Name of Course</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="course_name" value="'.$row['course_name'].'">
-        <input type="hidden" class="form-control" id="exampleInputEmail1" placeholder="" name="cid" value="'.$row['cid'].'">
-        </div>
-
-        <div class="form-group">
-        <label for="exampleInputEmail1">Course Code</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="course_code" value="'.$row['course_code'].'">
-        </div>
-
-        
-
-        <div class="form-group">
-        <label for="exampleInputEmail1">Course Description</label>
-        <textarea  class="form-control" id="exampleInputEmail1" name="course_description">'.$row['course_description'].'</textarea>
-        </div>
-
-        
-        
-        <div class="form-group">
-        <label>Programme Name</label>
-        <select class="form-control select2 " style="width: 100%;"
-            data-select2-id="1" tabindex="-1" aria-hidden="true" name="programme_id">
-            <option value="'.$row['programme_id'].'" selected>'.$programme.'</option>
-            '.$admin->programmeoptions().'
-            
-        </select>
-        <!--  -->
-        </div>
-
-
-        <div class="form-group">
-        <label>Credit Hours</label>
-        <select class="form-control select2 " style="width: 100%;"
-            data-select2-id="2" tabindex="-1" aria-hidden="true" name="course_credit">
-            <option value="'.$row['course_credit'].'" selected>'.$row['course_credit'].'</option>
-            <option value="1">1 credit Hour</option>
-            <option value="2">2 Credit Hours</option>
-            <option value="3">3 Credit Hours</option>
-            <option value="4">4 Credit Hours</option>
-            <option value="5">5 Credit Hours</option>
-            
-        </select>
-        <!--  -->
-        </div>
-
-
-        <div class="form-group">
-        <label>Course status</label>
-        <select class="form-control select2 " style="width: 100%;"
-            data-select2-id="3" tabindex="-1" aria-hidden="true" name="course_status">
-            <option value="'.$row['course_status'].'" selected>'.$status.'</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-            
-        </select>
-        <!--  -->
-        </div>
-
-    <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>';
-    }
-
-    public function coursedetails($cid)
-    {
-        $select = new sel();
-        $res = $select->select('course', [['cid', '=', $cid]]);
-        $row = $res[0];
-        $dp = $select->select('programme', [['pid', '=', $row['programme_id']]]);
-        $programme = $dp[0]['programme_name'];
-        $admin = new admin();
-
-        if ($row['course_status'] == 'active') {
-            $status = '<span class="badge badge-success">Active</span>';
-        }
-        if ($row['course_status'] == 'inactive') {
-            $status = '<span class="badge badge-danger">Inactive</span>';
-        }
-
-        echo '<tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Course Name</td>
-
-        <td id="viewstatus">'.$row['course_name'].'</td>
-        </tr>
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Course Code</td>
-
-        <td id="viewstatus">'.$row['course_code'].'</td>
-
-        </tr>
-
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Course Credit</td>
-
-        <td id="viewstatus">'.$row['course_credit'].'</td>
-
-        </tr>
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Course Description</td>
-
-        <td id="viewstatus">'.$row['course_description'].'</td>
-
-        </tr>
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Programme Name</td>
-
-        <td id="viewstatus">'.$programme.'</td>
-
-        </tr>
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Course Status</td>
-
-        <td id="viewstatus">'.$status.'</td>
-
-        </tr>
-
-        <tr style="border:1px solid #3F474E;height:60px; border-left:none;border-right:none;">
-        <td>Created on</td>
-
-        <td id="viewstatus">'.$row['created_at'].'</td>
-        </tr>';
-    }
-
-    public function getpositions()
-    {
-        $select = new sel();
-        $res = fetchall('pos');
-        foreach ($res as $value) {
-            if ($value['position_status'] == 'active') {
-                $value['position_status'] = '<span class="badge badge-success">Active</span>';
-            }
-            if ($value['position_status'] == 'inactive') {
-                $value['position_status'] = '<span class="badge badge-danger">Inactive</span>';
-            }
-            echo '<tr>
-            <td>'.$value['position_id'].'</td>
-            <td>'.$value['position_name'].'</td>
-            
-            <td>'.$value['position_status'].'</td>
-            <td> <button class="btn btn-secondary btngetposition" id="'.$value['position_id'].'"  data-izimodal-open="#editposition" data-izimodal-transitionin="fadeInDown"><i class="fa fa-edit"></i></button> <button class="btn btn-danger deleteposition" id="'.$value['position_id'].'"><i class="fa fa-trash"></i></button></td>
-            </tr>';
-        }
-    }
-
-    public function viewpositionform($position_id)
-    {
-        $select = new sel();
-        $res = $select->select('pos', [['position_id', '=', $position_id]]);
-        $row = $res[0];
-        if ($row['position_status'] == 'active') {
-            $status = 'Active';
-        }
-        if ($row['position_status'] == 'inactive') {
-            $status = 'Inactive';
-        }
-        echo '<div class="card-body">
-        <div class="form-group">
-          <label for="exampleInputEmail1">Name of Position</label>
-          <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="position_name" value="'.$row['position_name'].'">
-          <input type="hidden" class="form-control" id="exampleInputEmail1" placeholder="" name="position_id" value="'.$row['position_id'].'">
-        </div>
-
-        <div class="form-group">
-          <label>Position status</label>
-          <select class="form-control select2 " style="width: 100%;"
-            data-select2-id="1" tabindex="-1" aria-hidden="true" name="position_status">
-            <option value="'.$row['position_status'].'">'.$status.'</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-            
-          </select>
-          <!--  -->
-        </div>
-
-      <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </div>';
-    }
-
     // ************************************************************
     // .Fleet manager
     //****************************************** */
@@ -773,7 +315,7 @@ class admin
     public function listpits()
     {
         $res = fetchall('pit');
-        $result ='';
+        $result = '';
         foreach ($res as $row) {
             $result .= '<option value="'.$row['pid'].'">'.$row['pit_name'].' -'.$row['fuel'].'L</option>';
         }
@@ -785,10 +327,11 @@ class admin
     public function listrucks()
     {
         $res = fetchall('trucks');
-        $result ='';
+        $result = '';
         foreach ($res as $row) {
             $result .= '<option value="'.$row['tid'].'">'.$row['truck_name'].'</option>';
         }
+
         return $result;
     }
 
@@ -819,15 +362,14 @@ class admin
         }
     }
 
-
-    public function gettrip($tripid){
-        $res = customfetch('trips',[['tripid','=',$tripid]]);
+    public function gettrip($tripid)
+    {
+        $res = customfetch('trips', [['tripid', '=', $tripid]]);
         $row = $res[0];
-        $pit = customfetch('pit',[['pid','=',$row['pid']]]);
+        $pit = customfetch('pit', [['pid', '=', $row['pid']]]);
         $pit = $pit[0]['pit_name'];
-        $truck = customfetch('trucks',[['tid','=',$row['tid']]]);
+        $truck = customfetch('trucks', [['tid', '=', $row['tid']]]);
         $truck = $truck[0]['truck_name'];
-        
 
         echo '<div class="card-body">
 
@@ -897,7 +439,115 @@ class admin
     <div class="card-footer">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>';
-
     }
 
+    // pits***************************
+    // function for getpits
+
+    public function getpits()
+    {
+        $res = fetchall('pit');
+
+        foreach ($res  as $row) {
+            echo '<tr>
+            <td>'.$row['pid'].'</td>
+            <td>'.$row['pit_name'].'</td>
+            <td>'.$row['fuel'].'</td>
+            <td><!--<button class="btn btn-primary viewfaculty" id="'.$row['pid'].'"   data-izimodal-open="#viewfaculty" data-izimodal-transitionin="fadeInDown"><i class="fa fa-eye"></i></button>--> <button class="btn btn-secondary btngetpit" id="'.$row['pid'].'"  data-izimodal-open="#editpit" data-izimodal-transitionin="fadeInDown"><i class="fa fa-edit"></i></button> </td>
+
+            </tr>';
+        }
+    }
+
+    // get single pit
+
+    public function getpit($pid)
+    {
+        $res = customfetch('pit', [['pid', '=', $pid]]);
+        $row = $res[0];
+        echo '<div class="card-body">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Pit Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="pit_name" value="'.$row['pit_name'].'">
+          <input type="hidden" class="form-control" id="exampleInputEmail1" placeholder="" name="pid" value="'.$row['pid'].'">
+        </div>
+
+
+        <div class="form-group">
+          <label for="exampleInputEmail1">Fuel</label>
+          <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="fuel" value="'.$row['fuel'].'">
+         
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>';
+    }
+
+    // trucks***************************
+    // function for gettrucks
+    public function gettrucks()
+    {
+        $res = fetchall('trucks');
+
+        foreach ($res  as $row) {
+            echo '<tr>
+            <td>'.$row['tid'].'</td>
+            <td>'.$row['truck_name'].'</td>
+            <td>'.$row['truck_number'].'</td>
+            
+            <td><!--<button class="btn btn-primary viewfaculty" id="'.$row['tid'].'"   data-izimodal-open="#viewfaculty" data-izimodal-transitionin="fadeInDown"><i class="fa fa-eye"></i></button>--> <button class="btn btn-secondary btngettruck" id="'.$row['tid'].'"  data-izimodal-open="#edittruck" data-izimodal-transitionin="fadeInDown"><i class="fa fa-edit"></i></button> </td>
+
+            </tr>';
+        }
+    }
+
+    // get single truck
+
+    public function gettruck($tid)
+    {
+        $res = customfetch('trucks', [['tid', '=', $tid]]);
+        $row = $res[0];
+        echo '<div class="card-body">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Truck Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="truck_name" value="'.$row['truck_name'].'">
+          <input type="hidden" class="form-control" id="exampleInputEmail1" placeholder="" name="tid" value="'.$row['tid'].'">
+        </div>
+
+
+        <div class="form-group">
+          <label for="exampleInputEmail1">Truck Number</label>
+          <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="truck_number" value="'.$row['truck_number'].'">
+         
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>';
+    }
+
+    // /admin**********************************************************
+    // function for getadmins
+    public function getadmins()
+    {
+        $res = fetchall('cmd');
+
+        foreach ($res  as $row) {
+            if ($row['status'] == 'active') {
+                $status = '<span class="badge badge-success">Active</span>';
+            } else {
+                $status = '<span class="badge badge-danger">Inactive</span>';
+            }
+            echo '<tr>
+            <td>'.$row['admin_id'].'</td>
+            <td>'.$row['username'].'</td>
+            
+            <td>'.$row['phone'].'</td>
+            <td>'.$row['role'].'</td>
+            <td>'.$status.'</td>
+            <td>'.$row['date_created'].'</td>
+            <td><!--<button class="btn btn-primary viewfaculty" id="'.$row['aid'].'"   data-izimodal-open="#viewfaculty" data-izimodal-transitionin="fadeInDown"><i class="fa fa-eye"></i></button>--> <button class="btn btn-secondary btngetadmin" id="'.$row['aid'].'"  data-izimodal-open="#editadmin" data-izimodal-transitionin="fadeInDown"><i class="fa fa-edit"></i></button> </td>
+
+            </tr>';
+        }
+    }
 }

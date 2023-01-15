@@ -189,6 +189,58 @@ $('#editposition').iziModal({
   });
 
 
+  // addpit moAL
+
+  $('#addpit').iziModal({
+    title: 'New Pit',
+    headerColor: '#0069D9',
+    padding: 20,
+    radius: 20,
+    top: 120,
+    bottom: 50,
+
+  });
+
+  // edit pit
+
+  $('#editpit').iziModal({
+    title: 'Edit Pit',
+    headerColor: '#5A6268',
+    padding: 20,
+    radius: 20,
+    top: 120,
+    bottom: 50,
+
+  });
+
+
+  // add truck 
+
+  $('#addtruck').iziModal({
+    title: 'New Truck',
+    headerColor: '#0069D9',
+    padding: 20,
+    radius: 20,
+    top: 120,
+    bottom: 50,
+
+  });
+
+
+
+  // edit truck
+
+  $('#edittruck').iziModal({
+    title: 'Edit Truck',
+    headerColor: '#5A6268',
+    padding: 20,
+    radius: 20,
+    top: 120,
+    bottom: 50,
+
+  });
+
+
 
   // calculate net weight
 

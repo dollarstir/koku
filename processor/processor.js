@@ -22,7 +22,10 @@ $(function(){
             $('#cttrip').load('processor/processor.php?action=counttrips');
             $('#ctfuel').load('processor/processor.php?action=sumfuel');
             $('#cttrucks').load('processor/processor.php?action=counttrucks');
+
+            $('#cttruck').load('processor/processor.php?action=counttrucks');
             $('#ctpits').load('processor/processor.php?action=countpits');
+            $('#ctpit').load('processor/processor.php?action=countpits');
             
         }
 
@@ -144,22 +147,7 @@ $('.edittrip').submit(function(e){
   $.ajax(user);
 });
 
-// view faculty info 
 
-$(document).on('click','.viewfaculty',function(){
-  var fid = $(this).attr('id');
-  var user = {
-    url: 'processor/processor.php?action=facultydetails',
-    type: 'post',
-    data: {'fid':fid},
-    success: function(response){
-      $('#facultyinfo').html(response);
-    }
-
-  };
-  $.ajax(user);
-
-});
 
 // delete faculty
 $(document).on('click','.deletefaculty',function(){
@@ -176,64 +164,54 @@ $(document).on('click','.deletefaculty',function(){
 });
 
 
-// ****************************************************************************************
-// Department section
-// ****************************************************************************************
-$('.adddepartment').submit(function(e){
-  
-    e.preventDefault();
-    var user = {
-        url: 'processor/processor.php?action=adddepartment',
-        type: 'post',
-        data: new FormData(this),
-        cache: false,
-        contentType: false,
-        processData: false,
-        beforeSend: before,
-        success: resp
-  
-    };
-    $.ajax(user);
+
+
+
+// Fleett Manager **************************************
+// add pit
+$('.addpit').submit(function(e){
+
+  e.preventDefault();
+  var user = {
+      url: 'processor/processor.php?action=addpit',
+      type: 'post',
+      data: new FormData(this),
+      cache: false,
+      contentType: false,
+      processData: false,
+      
+      beforeSend: before,
+      success: resp
+
+  };
+  $.ajax(user);
 });
 
-// get department
-$(document).on('click','.btngetdepartment',function(){
-  var did = $(this).attr('id');
+
+// get a pit 
+
+$(document).on('click','.btngetpit',function(){
+  var pid = $(this).attr('id');
   var user = {
-    url: 'processor/processor.php?action=getdepartment',
+    url: 'processor/processor.php?action=getsinglepit',
     type: 'post',
-    data: {'did':did},
+    data: {'pid':pid},
     success: function(response){
-      $('.editdepartment').html(response);
+      $('.editpit').html(response);
     }
 
   };
   $.ajax(user);
 })
 
-// view department info
-$(document).on('click','.viewdepartment',function(){
-  var did = $(this).attr('id');
-  var user = {
-    url: 'processor/processor.php?action=departmentdetails',
-    type: 'post',
-    data: {'did':did},
-    success: function(response){
-      $('#departmentinfo').html(response);
-    }
 
-  };
-  $.ajax(user);
+// edit pit
 
-});
-
-// edit department
-
-$('.editdepartment').submit(function(e){
+$('.editpit').submit(function(e){
 
   e.preventDefault();
   var user = {
-      url: 'processor/processor.php?action=editdepartment',
+      url: 'processor/processor.php?action=editpit',
       type: 'post',
       data: new FormData(this),
       cache: false,
@@ -246,29 +224,55 @@ $('.editdepartment').submit(function(e){
   $.ajax(user);
 });
 
-// delete department
-$(document).on('click','.deletedepartment',function(){
-  var did = $(this).attr('id');
+
+
+
+
+// Trucks************************************** */
+// add truck
+$('.addtruck').submit(function(e){
+
+  e.preventDefault();
   var user = {
-    url: 'processor/processor.php?action=deletedepartment',
-    type: 'post',
-    data: {'did':did},
-    beforeSend: before,
-    success: resp
+      url: 'processor/processor.php?action=addtruck',
+      type: 'post',
+      data: new FormData(this),
+      cache: false,
+      contentType: false,
+      processData: false,
+      
+      beforeSend: before,
+      success: resp
 
   };
   $.ajax(user);
 });
 
-// ****************************************************************************************
-// Program section
-// ****************************************************************************************
 
-$('.addprogramme').submit(function(e){
-  
+// get a truck 
+
+$(document).on('click','.btngettruck',function(){
+  var tid = $(this).attr('id');
+  var user = {
+    url: 'processor/processor.php?action=getsingletruck',
+    type: 'post',
+    data: {'tid':tid},
+    success: function(response){
+      $('.edittruck').html(response);
+    }
+
+  };
+  $.ajax(user);
+})
+
+
+// edit Truck
+
+$('.edittruck').submit(function(e){
+
   e.preventDefault();
   var user = {
-      url: 'processor/processor.php?action=adddprogramme',
+      url: 'processor/processor.php?action=edittruck',
       type: 'post',
       data: new FormData(this),
       cache: false,
@@ -281,224 +285,6 @@ $('.addprogramme').submit(function(e){
   $.ajax(user);
 });
 
-// get programme
-$(document).on('click','.btngetprogramme',function(){
-var pid = $(this).attr('id');
-var user = {
-  url: 'processor/processor.php?action=getprogramme',
-  type: 'post',
-  data: {'pid':pid},
-  success: function(response){
-    $('.editprogramme').html(response);
-  }
-
-};
-$.ajax(user);
-
-});
-
-
-// View programme info
-$(document).on('click','.viewprogramme',function(){
-  var pid = $(this).attr('id');
-  var user = {
-    url: 'processor/processor.php?action=programmedetails',
-    type: 'post',
-    data: {'pid':pid},
-    success: function(response){
-      $('#programmeinfo').html(response);
-    }
-  };
-  $.ajax(user);
-});
-
-// edit programme
-$('.editprogramme').submit(function(e){
-
-  e.preventDefault();
-  var user = {
-      url: 'processor/processor.php?action=editprogramme',
-      type: 'post',
-      data: new FormData(this),
-      cache: false,
-      contentType: false,
-      processData: false,
-      beforeSend: before,
-      success: resp
-
-  };
-  $.ajax(user);
-
-});
-
-
-// delete Programme
-$(document).on('click','.deleteprogramme',function(){
-  var pid = $(this).attr('id');
-  var user = {
-    url: 'processor/processor.php?action=deletedprogramme',
-    type: 'post',
-    data: {'pid':pid},
-    beforeSend: before,
-    success: resp
-
-  };
-  $.ajax(user);
-});
-
-// ****************************************************************************************
-// Course section
-// ****************************************************************************************
-
-$('.addcourse').submit(function(e){
-    
-    e.preventDefault();
-    var user = {
-        url: 'processor/processor.php?action=addcourse',
-        type: 'post',
-        data: new FormData(this),
-        cache: false,
-        contentType: false,
-        processData: false,
-        beforeSend: before,
-        success: resp
-  
-    };
-    $.ajax(user);
-});
-
-// get course
-$(document).on('click','.btngetcourse',function(){
-var cid = $(this).attr('id');
-var user = {
-  url: 'processor/processor.php?action=getcourse',
-  type: 'post',
-  data: {'cid':cid},
-  success: function(response){
-    $('.editcourse').html(response);
-  }
-};
-$.ajax(user);
-
-});
-
-// View course info
-$(document).on('click','.viewcourse',function(){
-  var cid = $(this).attr('id');
-  var user = {
-    url: 'processor/processor.php?action=coursedetails',
-    type: 'post',
-    data: {'cid':cid},
-    success: function(response){
-      $('#courseinfo').html(response);
-    }
-  };
-  $.ajax(user);
-
-});
-
-// edit course
-$('.editcourse').submit(function(e){
-  
-    e.preventDefault();
-    var user = {
-        url: 'processor/processor.php?action=editcourse',
-        type: 'post',
-        data: new FormData(this),
-        cache: false,
-        contentType: false,
-        processData: false,
-        beforeSend: before,
-        success: resp
-  
-    };
-    $.ajax(user);
-});
-
-// delete course
-$(document).on('click','.deletecourse',function(){
-  var cid = $(this).attr('id');
-  var user = {
-    url: 'processor/processor.php?action=deletecourse',
-    type: 'post',
-    data: {'cid':cid},
-    beforeSend: before,
-    success: resp
-
-  };
-  $.ajax(user);
-});
-
-// ****************************************************************************************
-//  Position section
-// ****************************************************************************************
-
-$('.addposition').submit(function(e){
-      
-      e.preventDefault();
-      var user = {
-          url: 'processor/processor.php?action=addposition',
-          type: 'post',
-          data: new FormData(this),
-          cache: false,
-          contentType: false,
-          processData: false,
-          beforeSend: before,
-          success: resp
-    
-      };
-      $.ajax(user);
-});
-
-// get position
-$(document).on('click','.btngetposition',function(){
-var position_id = $(this).attr('id');
-var user = {
-  url: 'processor/processor.php?action=getposition',
-  type: 'post',
-  data: {'position_id':position_id},
-  success: function(response){
-    $('.editposition').html(response);
-  }
-};
-$.ajax(user);
-
-});
-
-
-// edit position
-$('.editposition').submit(function(e){
-      
-        e.preventDefault();
-        var user = {
-            url: 'processor/processor.php?action=editposition',
-            type: 'post',
-            data: new FormData(this),
-            cache: false,
-            contentType: false,
-            processData: false,
-            beforeSend: before,
-            success: resp
-      
-        };
-        $.ajax(user);
-
-});
-
-// delete position
-$(document).on('click','.deleteposition',function(){
-  var position_id = $(this).attr('id');
-  var user = {
-    url: 'processor/processor.php?action=deleteposition',
-    type: 'post',
-    data: {'position_id':position_id},
-    beforeSend: before,
-    success: resp
-
-  };
-  $.ajax(user);
-
-});
 
 
 

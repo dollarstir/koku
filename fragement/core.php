@@ -69,7 +69,7 @@ function adminnav()
 
                       
                       <li class="nav-item">
-                          <a href="glomotadmin" class="nav-link">
+                          <a href="admin" class="nav-link">
                           
                           <p>
                               Dashboard
@@ -127,10 +127,10 @@ function adminnav()
                       
                       
                       <li class="nav-item">
-                          <a href="#" class="nav-link">
+                          <a href="admins" class="nav-link">
                            <i class="nav-icon fas fa-cog"></i>
                           <p>
-                              Settings
+                              Admin Settings
                              
                           </p>
                           </a>
@@ -453,6 +453,13 @@ bsCustomFileInput.init();
   $(function () {
     $("#example1").DataTable({
       "order": [[0, "desc"]],
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo("#example1_wrapper .col-md-6:eq(0)");
+
+
+    $("#example").DataTable({
+      "order": [[0, "asc"]],
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo("#example1_wrapper .col-md-6:eq(0)");

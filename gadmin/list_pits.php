@@ -1,7 +1,7 @@
 <?php
 involve('core.php');
 involve('admin.php');
-admintop('Positions');
+admintop('Pits');
 $admin = new Admin();
 
 ?>
@@ -23,7 +23,7 @@ $admin = new Admin();
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Positions</h1>
+              <h1>Pits</h1>
             </div>
             
           </div>
@@ -46,31 +46,38 @@ $admin = new Admin();
                     <!-- add faculty -->
                     
                     <!-- add faculty -->
-                    <div><button type="button" class="btn btn-primary" data-izimodal-open="#addpositionmodal" style="margin:10px;" data-izimodal-transitionin="fadeInDown">Add Position</button></div>
-                  <table id="example1" class="table table-bordered table-striped">
+                    <div><button type="button" class="btn btn-primary" data-izimodal-open="#addpit" style="margin:10px;" data-izimodal-transitionin="fadeInDown">Add Pit</button> <h5 style="float:right;">TOTAL PITS :  <span class="badge badge-secondary right ctpit" id="ctpit"><?= countall('pit'); ?></span>  </h5></div>
+                  <table id="example" class="table table-bordered table-striped">
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Name</th>
+                        <th>Pit</th>
+                        <th>Fuel</th>
                         
-                        <th>Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
-                    <tbody id="tblposition">
+                    <tbody id="tblpit">
 
-                    <?php $admin->getpositions(); ?>
+                    <?php
+                    $admin = new admin();
+                    $admin->getpits();
+                    ?>
                       
                         
                       
                      
                     </tbody>
                     <tfoot>
+                      
+
+                        
+                      
                       <tr>
                       <th>#</th>
-                        <th>Name</th>
-                        
-                        <th>Status</th>
+                        <th>Pit</th>
+                        <th>Fuel</th>
+                       
                         <th>Action</th>
                       </tr>
                     </tfoot>
@@ -78,8 +85,8 @@ $admin = new Admin();
                 </div>
 
                 <!-- eidt modal -->
-                <div id="editposition"  data-iziModal-icon="fa fa-edit">
-                    <form class="editposition">
+                <div id="editpit"  data-iziModal-icon="fa fa-edit">
+                    <form class="editpit">
                     
                     </form>
 
@@ -87,49 +94,57 @@ $admin = new Admin();
 
                 <!-- edit modal -->
 
-                <!-- view programme -->
-                <div id="viewprogramme"  data-iziModal-icon="fa fa-eye">
-                    <table width="100%" id="programmeinfo"> 
+                <!-- view faculty -->
+                <div id="viewfaculty"  data-iziModal-icon="fa fa-eye">
+                    <table width="100%" id="facultyinfo"> 
                         
                     </table>
                     
                 </div>
-                <!-- view programme -->
+                <!-- view faculty -->
 
-                <!-- add programme -->
+                <!-- add pit -->
 
-                <div id="addpositionmodal" data-iziModal-icon="fa fa-plus">
-                    <form class="addposition">
+                <div id="addpit" data-iziModal-icon="fa fa-plus">
+                    <form class="addpit">
                     <div class="card-body">
+
+
+                        
+
+
+
+                       
                         <div class="form-group">
-                        <label for="exampleInputEmail1">Name of Position</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="position_name">
+                          <label for="exampleInputEmail1">Name of Pit</label>
+                          <input type="text" class="form-control" id="gw" placeholder="" name="pit_name">
                         </div>
 
-                        
-
-                        
-                        
-                        
-
-
                         <div class="form-group">
-                        <label>Position status</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;"
-                            data-select2-id="1" tabindex="-1" aria-hidden="true" name="position_status">
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                            
-                        </select>
-                        <!--  -->
+                          <label for="exampleInputEmail1">Fuel (eg: 6)</label>
+                          <input type="number" class="form-control" id="gw" placeholder="" name="fuel">
                         </div>
+
+
+                       
+
+                        
+
+                        
+
+                        
+
+
+                        
+
+                        
 
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                     </form>
                 </div>
-                <!-- add programme -->
+                <!-- add faculty -->
 
               </div>
 
