@@ -244,11 +244,37 @@ $('#editposition').iziModal({
 
   // Admin Settings *******************
 
-  // add truck 
+  // add admin 
 
   $('#addadmin').iziModal({
     title: 'New Admin',
     headerColor: '#0069D9',
+    padding: 20,
+    radius: 20,
+    top: 120,
+    bottom: 50,
+
+  });
+
+
+  // change admin  password
+
+  $('#changepassword').iziModal({
+    title: 'Change Password',
+    headerColor: '#0069D9',
+    padding: 20,
+    radius: 20,
+    top: 120,
+    bottom: 50,
+
+  });
+
+
+  // edit admin
+
+  $('#editadmin').iziModal({
+    title: 'Edit Admin',
+    headerColor: '#5A6268',
     padding: 20,
     radius: 20,
     top: 120,

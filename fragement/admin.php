@@ -551,4 +551,72 @@ class admin
             </tr>';
         }
     }
+
+    // get single admin password function
+
+    public function getadminpass($admin_id)
+    {
+        $res = customfetch('cmd', [['admin_id', '=', $admin_id]]);
+        $row = $res[0];
+        echo '<div class="card-body">
+        <div class="form-group">
+          <label for="exampleInputEmail1">New Password</label>
+          <input type="password" class="form-control" id="exampleInputEmail1" placeholder="" name="newpass" value="">
+          <input type="hidden" class="form-control" id="exampleInputEmail1" placeholder="" name="admin_id" value="'.$row['admin_id'].'">
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>';
+    }
+
+    // function to get single admin
+    public function getadmin($admin_id)
+    {
+        $res = customfetch('cmd', [['admin_id', '=', $admin_id]]);
+        $row = $res[0];
+        echo '<div class="card-body">
+                    <div class="form-group">
+                    <label for="exampleInputEmail1">Name</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="name" value="'.$row['name'].'">
+                    <input type="hidden" class="form-control" id="exampleInputEmail1" placeholder="" name="admin_id" value="'.$row['admin_id'].'">
+                    </div>
+                    
+                    <div class="form-group">
+                    <label for="exampleInputEmail1">Username</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="username" value="'.$row['username'].'" readonly>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Contact</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="contact" value="'.$row['contact'].'">
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Role</label>
+                        <select class="form-control" name="role">
+                            <option value="admin" '.($row['role'] == 'admin' ? 'selected' : '').'>Admin</option>
+                            <option value="superadmin" '.($row['role'] == 'superadmin' ? 'selected' : '').'>Super Admin</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Status</label>
+                        <select class="form-control" name="status">
+                            <option value="active" '.($row['status'] == 'active' ? 'selected' : '').'>Active</option>
+                            <option value="inactive" '.($row['status'] == 'inactive' ? 'selected' : '').'>Inactive</option>
+                        </select>
+
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+
+                    </div>
+        
+                </div>
+
+        
+        ';
+    }
 }

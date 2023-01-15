@@ -5,6 +5,8 @@ $(function(){
   // responses handler
   // *********************************** */
     function resp(response){
+
+      console.log(response);
         var response = JSON.parse(response);
 
         if(response.type == "success" &&  response.msg == "success"){
@@ -306,6 +308,97 @@ $('.addadmin').submit(function(e){
   };
   $.ajax(user);
 });
+
+// get password info
+
+$(document).on('click','.btnchangepass',function(){
+  var admin_id = $(this).attr('id');
+  var user = {
+    url: 'processor/processor.php?action=getadminpass',
+    type: 'post',
+    data: {'admin_id':admin_id},
+    success: function(response){
+      $('.changepassword').html(response);
+    }
+
+  };
+  $.ajax(user);
+})
+
+
+// edit password 
+
+$('.changepassword').submit(function(e){
+
+  e.preventDefault();
+  var user = {
+      url: 'processor/processor.php?action=editpassword',
+      type: 'post',
+      data: new FormData(this),
+      cache: false,
+      contentType: false,
+      processData: false,
+      
+      beforeSend: before,
+      success: resp
+
+  };
+  $.ajax(user);
+});
+
+
+// get single admin
+
+$(document).on('click','.btngetadmin',function(){
+  var admin_id = $(this).attr('id');
+  var user = {
+    url: 'processor/processor.php?action=getsingleadmin',
+    type: 'post',
+    data: {'admin_id':admin_id},
+    success: function(response){
+      $('.editadmin').html(response);
+    }
+
+  };
+  $.ajax(user);
+})
+
+// edit admin
+
+$('.editadmin').submit(function(e){
+
+  e.preventDefault();
+  var user = {
+      url: 'processor/processor.php?action=editadmin',
+      type: 'post',
+      data: new FormData(this),
+      cache: false,
+      contentType: false,
+      processData: false,
+      
+      beforeSend: before,
+      success: resp
+
+  };
+  $.ajax(user);
+});
+
+
+// delete admin
+$(document).on('click','.btndelaccount',function(){
+  var admin_id = $(this).attr('id');
+  var user = {
+    url: 'processor/processor.php?action=deleteadmin',
+    type: 'post',
+    data: {'admin_id':admin_id},
+    beforeSend: before,
+    success: resp
+
+  };
+  $.ajax(user);
+
+});
+
 
 
 

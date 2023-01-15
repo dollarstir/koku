@@ -93,8 +93,8 @@ $admin = new Admin();
                 </div>
 
                 <!-- eidt modal -->
-                <div id="editfaculty"  data-iziModal-icon="fa fa-edit">
-                    <form class="edittrip">
+                <div id="editadmin"  data-iziModal-icon="fa fa-edit">
+                    <form class="editadmin">
                     
                     </form>
 
@@ -102,12 +102,12 @@ $admin = new Admin();
 
                 <!-- edit modal -->
 
-                <!-- view faculty -->
-                <div id="viewfaculty"  data-iziModal-icon="fa fa-eye">
-                    <table width="100%" id="facultyinfo"> 
+                <!-- chnage Password -->
+                <div id="changepassword"  data-iziModal-icon="fa fa-edit">
+                    <form class="changepassword">
                         
-                    </table>
-                    
+                    </form>
+                        
                 </div>
                 <!-- view faculty -->
 

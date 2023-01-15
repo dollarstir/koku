@@ -193,6 +193,52 @@ if (isset($_GET['action'])) {
             $admin = new admin();
             $admin->getadmins();
             break;
+
+        case 'getadminpass':
+            $admin = new admin();
+            extract($_POST);
+            $admin->getadminpass($admin_id);
+            break;
+
+        case 'editpassword':
+            extract($_POST);
+            $admin = new admin();
+            if (empty(trim($newpass))) {
+                echo json_encode(['type' => 'warning', 'msg' => 'All fields are required']);
+            } else {
+                echo json_encode($admin->editrecord('cmd', [
+                    'password' => md5($newpass),
+                    ], ['admin_id' => $admin_id], 'updated', ['table' => 'tbladmin', 'action' => 'getadmins', 'modalid' => 'changepassword']));
+            }
+                break;
+
+        case 'getsingleadmin':
+            $admin = new admin();
+            extract($_POST);
+            $admin->getadmin($admin_id);
+            break;
+
+        case 'editadmin':
+            extract($_POST);
+            $admin = new admin();
+            if (empty(trim($username)) || empty(trim($contact)) || empty(trim($role)) || empty(trim($status)) || empty(trim($name))) {
+                echo json_encode(['type' => 'warning', 'msg' => 'All fields are required']);
+            } else {
+                echo json_encode($admin->editrecord('cmd', [
+                    'name' => $name,
+                    'username' => $username,
+                    'contact' => $contact,
+                    'role' => $role,
+                    'status' => $status,
+                    ], ['admin_id' => $admin_id], 'updated', ['table' => 'tbladmin', 'action' => 'getadmins', 'modalid' => 'editadmin']));
+            }
+            break;
+
+        case 'deleteadmin':
+            extract($_POST);
+            $admin = new admin();
+            echo json_encode($admin->deleterecord('cmd', [['admin_id', '=', $admin_id]], '', 'deleted', ['table' => 'tbladmin', 'action' => 'getadmins']));
+            break;
             default:
 
             break;
