@@ -46,7 +46,7 @@ $admin = new Admin();
                     <!-- add faculty -->
                     
                     <!-- add faculty -->
-                    <div><button type="button" class="btn btn-primary" data-izimodal-open="#addfacultymodal" style="margin:10px;" data-izimodal-transitionin="fadeInDown">Add Admin</button></div>
+                    <div><button type="button" class="btn btn-primary" data-izimodal-open="#addadmin" style="margin:10px;" data-izimodal-transitionin="fadeInDown">Add Admin</button></div>
                   <table id="example" class="table table-bordered table-striped">
                     <thead>
                       <tr>
@@ -61,7 +61,7 @@ $admin = new Admin();
                         <th>Action</th>
                       </tr>
                     </thead>
-                    <tbody id="tblfaculty">
+                    <tbody id="tbladmin">
 
                     <?php
                     $admin = new admin();
@@ -126,6 +126,17 @@ $admin = new Admin();
                         <div class="form-group">
                           <label for="exampleInputEmail1">Username( NB: no spaces allowed)</label>
                           <input type="text" class="form-control" placeholder="" name="username">
+                        </div>
+
+
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">New Password</label>
+                          <input type="password" class="form-control" placeholder="" name="password">
+                        </div>
+
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Re-enter Password</label>
+                          <input type="password" class="form-control" placeholder="" name="repass">
                         </div>
 
 

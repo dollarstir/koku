@@ -287,6 +287,30 @@ $('.edittruck').submit(function(e){
 
 
 
+// Admin************************************** */
+// add admin
+$('.addadmin').submit(function(e){
+
+  e.preventDefault();
+  var user = {
+      url: 'processor/processor.php?action=addadmin',
+      type: 'post',
+      data: new FormData(this),
+      cache: false,
+      contentType: false,
+      processData: false,
+      
+      beforeSend: before,
+      success: resp
+
+  };
+  $.ajax(user);
+});
+
+
+
+
+
 
 
 

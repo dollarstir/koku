@@ -165,8 +165,36 @@ if (isset($_GET['action'])) {
                 'truck_number' => $truck_number,
                 ], ['tid' => $tid], 'updated', ['table' => 'tbltruck', 'action' => 'gettruck', 'modalid' => 'edittruck']));
             break;
+                // ***********************************
+            // * Admins
+            // ***********************************\
+
+        case 'addadmin':
+            extract($_POST);
+            $admin = new admin();
+            if (empty(trim($username)) || empty(trim($password)) || empty(trim($contact))) {
+                echo json_encode(['type' => 'warning', 'msg' => 'All fields are required']);
+            } elseif (trim($repass) != trim($password)) {
+                echo json_encode(['type' => 'warning', 'msg' => 'Password does not match']);
+            } else {
+                $data = [
+                    'name' => $name,
+                    'username' => $username,
+                    'password' => md5($password),
+
+                    'contact' => $contact,
+                    'role' => $role,
+                    'status' => $status,
+                    'date_created' => date('Y-m-d'), ];
+                echo   json_encode($admin->addrecord('cmd', [['username', '=', $username]], $data, 'success', 'AND', ['table' => 'tbladmin', 'action' => 'getadmins', 'modalid' => 'addadmin']));
+            }
+            break;
+        case 'getadmins':
+            $admin = new admin();
+            $admin->getadmins();
+            break;
             default:
 
             break;
-    }
+        }
 }

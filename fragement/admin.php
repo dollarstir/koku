@@ -539,13 +539,14 @@ class admin
             }
             echo '<tr>
             <td>'.$row['admin_id'].'</td>
+            <td>'.$row['name'].'</td>   
             <td>'.$row['username'].'</td>
             
-            <td>'.$row['phone'].'</td>
+            <td>'.$row['contact'].'</td>
             <td>'.$row['role'].'</td>
             <td>'.$status.'</td>
             <td>'.$row['date_created'].'</td>
-            <td><!--<button class="btn btn-primary viewfaculty" id="'.$row['aid'].'"   data-izimodal-open="#viewfaculty" data-izimodal-transitionin="fadeInDown"><i class="fa fa-eye"></i></button>--> <button class="btn btn-secondary btngetadmin" id="'.$row['aid'].'"  data-izimodal-open="#editadmin" data-izimodal-transitionin="fadeInDown"><i class="fa fa-edit"></i></button> </td>
+            <td><button class="btn btn-primary btnchangepass" id="'.$row['admin_id'].'" title="change password"   data-izimodal-open="#changepassword" data-izimodal-transitionin="fadeInDown"><i class="fa fa-lock"></i></button> <button title="Edit Account" class="btn btn-secondary btngetadmin" id="'.$row['admin_id'].'"  data-izimodal-open="#editadmin" data-izimodal-transitionin="fadeInDown"><i class="fa fa-edit"></i></button>  <button title="Delete Account" class="btn btn-danger btndelaccount" id="'.$row['admin_id'].'" ><i class="fa fa-trash"></i></button></td>
 
             </tr>';
         }

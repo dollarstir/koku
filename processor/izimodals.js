@@ -242,6 +242,22 @@ $('#editposition').iziModal({
 
 
 
+  // Admin Settings *******************
+
+  // add truck 
+
+  $('#addadmin').iziModal({
+    title: 'New Admin',
+    headerColor: '#0069D9',
+    padding: 20,
+    radius: 20,
+    top: 120,
+    bottom: 50,
+
+  });
+
+
+
   // calculate net weight
 
   $(document).on('input','#gw',function(){
