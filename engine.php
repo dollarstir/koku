@@ -75,5 +75,12 @@ $router = new Router([
             return Viewer::view('gadmin/list_admins.php', $context);
         }
     ),
+
+    new Route(
+        '/reports',
+        function ($context) {
+            return Viewer::view('gadmin/report.php', $context);
+        }
+    ),
 ]);
 $router->launch();
