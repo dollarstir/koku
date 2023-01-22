@@ -148,7 +148,79 @@ admintop('Dashboard');
               </div>
             </div>
 
+
+
+            <div class="col-lg-3 col-6">
+
+              <div class="small-box bg-info">
+                <div class="inner">
+                  <h3><?php echo sumall('trips', 'net'); ?></h3>
+                  <p>Total Tonage</p>
+                </div>
+                <div class="icon">
+                <i class="ion ion-bag"></i>
+                </div>
+                <a href="trips" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+
+
+
+            <div class="col-lg-3 col-6">
+
+              <div class="small-box bg-success">
+                <div class="inner">
+                  <h3><?php echo sumall('trips', 'fuel'); ?></h3>
+                  <p> Total fuel Cosumption</p>
+                </div>
+                <div class="icon">
+                <i class="ion ion-bag"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+
+
+            <div class="col-lg-3 col-6">
+
+              <div class="small-box bg-info">
+                <div class="inner">
+                  <h3><?php
+
+                  echo (sum('trips', 'net', [['date_created', '=', date('Y-m-d')]]) == null) ? '0' : sum('trips', 'net', [['date_created', '=', date('Y-m-d')]]);
+
+                  ?></h3>
+                  <p>Today Tonage</p>
+                </div>
+                <div class="icon">
+                <i class="ion ion-bag"></i>
+                </div>
+                <a href="trips" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+
+
+
+
+            <div class="col-lg-3 col-6">
+
+              <div class="small-box bg-success">
+                <div class="inner">
+                  <h3><?php echo (sum('trips', 'fuel', [['date_created', '=', date('Y-m-d')]]) == null) ? '0' : sum('trips', 'fuel', [['date_created', '=', date('Y-m-d')]]); ?></h3>
+                  <p> Today fuel Cosumption</p>
+                </div>
+                <div class="icon">
+                <i class="ion ion-bag"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+
           </div>
+
+
+
+            
 
 
           <!-- second -->

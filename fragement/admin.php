@@ -742,4 +742,22 @@ class admin
       
       ';
     }
+
+    // admin login********************************************************
+    public function adminlogin($username, $password)
+    {
+        if (authenticate('cmd', [['username', '=', $username]]) == 'success') {
+            if (authenticate('cmd', [['password', '=', md5($password)]]) == 'success') {
+                if (loginauth('cmd', 'fleetadmin', [['username', '=', $username], ['password', '=', md5($password)]], 'AND') == 'success') {
+                    return ['type' => 'success', 'msg' => 'loinsuccess'];
+                } else {
+                    return ['type' => 'error', 'msg' => 'Something went wrong'];
+                }
+            } else {
+                return ['type' => 'error', 'msg' => 'Invalid Password'];
+            }
+        } else {
+            return ['type' => 'error', 'msg' => 'Invalid Username'];
+        }
+    }
 }

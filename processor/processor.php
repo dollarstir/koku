@@ -256,6 +256,16 @@ if (isset($_GET['action'])) {
             $admin->truckreport($tid, $from, $to);
 
             break;
+    // admin login***********************************
+    case 'adminlogin':
+            $admin = new admin();
+            extract($_POST);
+            if (empty(trim($username)) || empty(trim($password))) {
+                echo json_encode(['type' => 'warning', 'msg' => 'All fields are required']);
+            } else {
+                echo json_encode($admin->adminlogin($username, $password));
+            }
+            break;
     default:
 
             break;

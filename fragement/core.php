@@ -52,6 +52,24 @@ function admintop($title)
 
 function adminnav()
 {
+    mainchecker('fleetadmin', 'login');
+    $adminid = $_SESSION['fleetadmin']['admin_id'];
+    $admintype = customfetch('cmd', [['admin_id', '=', $adminid]]);
+    $admintype = $admintype[0]['role'];
+
+    if ($admintype == 'superadmin') {
+        $admintype = '<li class="nav-item">
+        <a href="admins" class="nav-link">
+         <i class="nav-icon fas fa-cog"></i>
+        <p>
+            Admin Settings
+           
+        </p>
+        </a>
+        
+    </li>';
+    }
+
     echo '<aside class="main-sidebar sidebar-dark-primary elevation-4">
 
     <a href="glomotadmin" class="brand-link">
@@ -126,11 +144,15 @@ function adminnav()
                       </li>
                       
                       
+                      '.$admintype.'
+
+
+
                       <li class="nav-item">
-                          <a href="admins" class="nav-link">
-                           <i class="nav-icon fas fa-cog"></i>
+                          <a href="javascript:void;" class="nav-link" id="logout">
+                          <i class="nav-icon fas fa-sign-out-alt"></i>
                           <p>
-                              Admin Settings
+                              Logout
                              
                           </p>
                           </a>

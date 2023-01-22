@@ -82,5 +82,12 @@ $router = new Router([
             return Viewer::view('gadmin/report.php', $context);
         }
     ),
+
+    new Route(
+        '/login',
+        function ($context) {
+            return Viewer::view('gadmin/auth.php', $context);
+        }
+    ),
 ]);
 $router->launch();

@@ -120,14 +120,13 @@ class sums extends database
         }
         $dtate = '';
         $date = "AND $dates[0] BETWEEN '$dates[1]' AND '$dates[2]' ";
-        echo $date;
+
         if ($limit == '') {
             $sel = $this->conn->prepare("SELECT SUM($rowsum) as totCost FROM $table $vs $date $kof ");
         } else {
             $sel = $this->conn->prepare("SELECT SUM($rowsum) as totCost FROM $table $vs $date $kof LIMIT $limit");
         }
 
-        var_dump($sel);
         foreach ($target as $value) {
             if (is_array($value)) {
                 if (count($value) == 3) {
