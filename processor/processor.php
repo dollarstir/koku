@@ -249,6 +249,13 @@ if (isset($_GET['action'])) {
             $admin->pitreport($pid, $from, $to);
 
             break;
+
+    case 'gettruckreport':
+            $admin = new admin();
+            extract($_POST);
+            $admin->truckreport($tid, $from, $to);
+
+            break;
     default:
 
             break;

@@ -623,7 +623,16 @@ class admin
     //Report********************************************************
     public function pitreport($pid, $from, $to)
     {
-        $totaltonage = sum('trips', 'net', [['pid', '=', $pid], ['date_created', '>=', $from], ['date', '<=', $to]], 'AND');
+        $sum = new sums();
+        $count = new counter();
+        $totaltonage = $sum->sumbetween('trips', 'net', [['pid', '=', $pid]], ['date_created', $from, $to], 'AND');
+        if ($totaltonage == null) {
+            $totaltonage = 0;
+        }
+        $totalfuel = $sum->sumbetween('trips', 'fuel', [['pid', '=', $pid]], ['date_created', $from, $to], 'AND');
+        if ($totalfuel == null) {
+            $totalfuel = 0;
+        }
         echo '<div class="col-lg-3 col-6">
 
         <div class="small-box bg-info">
@@ -634,7 +643,7 @@ class admin
           <div class="icon">
             <i class="ion ion-bag"></i>
           </div>
-          <a href="pits" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          
         </div>
       </div>
 
@@ -642,14 +651,95 @@ class admin
 
         <div class="small-box bg-success">
           <div class="inner">
-            <h3>32</h3>
-            <p>Total Trucks</p>
+            <h3>'.$count->countbetween('trips', 'date_created', [$from, $to], [['pid', '=', $pid]], 'AND').'</h3>
+            <p>Trucks used </p>
           </div>
           <div class="icon">
           <i class="ion ion-bag"></i>
           </div>
-          <a href="trucks" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          
         </div>
-      </div>';
+      </div>
+      
+      <div class="col-lg-3 col-6">
+
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3>'.$totalfuel.'Litres</h3>
+            <p>Fuel Consumption</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-bag"></i>
+          </div>
+          
+        </div>
+      </div>
+      
+      
+      
+      
+      ';
+    }
+
+    public function truckreport($tid, $from, $to)
+    {
+        $sum = new sums();
+        $count = new counter();
+        $totaltonage = $sum->sumbetween('trips', 'net', [['tid', '=', $tid]], ['date_created', $from, $to], 'AND');
+        // $totaltonage = sum('trips', 'net', [['tid', '=', $tid], ['date_created', '>=', $from], ['date_created', '<=', $to]], 'AND');
+        if ($totaltonage == null) {
+            $totaltonage = 0;
+        }
+        $totalfuel = $sum->sumbetween('trips', 'fuel', [['tid', '=', $tid]], ['date_created', $from, $to], 'AND');
+        // $totalfuel = sum('trips', 'fuel', [['tid', '=', $tid], ['date_created', '>=', $from], ['date_created', '<=', $to]], 'AND');
+        if ($totalfuel == null) {
+            $totalfuel = 0;
+        }
+        echo '<div class="col-lg-3 col-6">
+
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3>'.$totaltonage.'</h3>
+            <p>Total Tounage</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-bag"></i>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-6">
+
+        <div class="small-box bg-success">
+          <div class="inner">
+            <h3>'.$count->countbetween('trips', 'date_created', [$from, $to], [['tid', '=', $tid]], 'AND').'</h3>
+            <p>Trips </p>
+          </div>
+          <div class="icon">
+          <i class="ion ion-bag"></i>
+          </div>
+          
+        </div>
+      </div>
+      
+      <div class="col-lg-3 col-6">
+
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3>'.$totalfuel.'Litres</h3>
+            <p>Fuel Consumption</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-bag"></i>
+          </div>
+          
+        </div>
+      </div>
+      
+      
+      
+      
+      ';
     }
 }

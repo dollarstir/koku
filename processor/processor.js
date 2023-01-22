@@ -444,6 +444,27 @@ $('#btnpit').click(function(){
 
 });
 
+// get truck report
+$('#btntruck').click(function(){
+  var tid = $('.tid').val();
+  var from = $('#fromdate').val();
+  var to = $('#todate').val();
+  var user = {
+    url: 'processor/processor.php?action=gettruckreport',
+    type: 'post',
+    data: {'tid':tid,'from':from,'to':to},
+    beforeSend: before, 
+    success: function(response){
+      toastr.remove();
+      $('#displayreport').html(response);
+    }
+
+  };
+  $.ajax(user);
+
+
+});
+
 
 
 
