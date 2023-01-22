@@ -33,19 +33,41 @@ $admin = new Admin();
       <section class="content">
         <div class="container-fluid">
 
+          <div class="row">
+                       
+                  <div class="col-4">
+
+                          <div class="form-group" id="">
+                            <label>View Report By?</label>
+                            <select class="form-control select2 select2-hidden-accessible" style="width: 100%;"
+                                data-select2-id="1" tabindex="-1" aria-hidden="true" name="reporttype" id="reporttype">
+                               
+                                <option value="pit"> Pit</option>
+                                <option value="truck"> Truck</option>
+                            </select>
+                            
+                          </div>
+
+
+                          
+                  </div>
+            
+
+          </div>
+
         
           
 
 
           <!-- fomr horizotal -->
-          <div class="row">
+          <div class="row" id="frmcontroler"  style="display:none;">
             
             
               <div class="col-lg-3 col-6">
 
-                          <div class="form-group">
+                          <div class="form-group" id="pitfrm">
                             <label>Select Pit</label>
-                            <select class="form-control select2 select2-hidden-accessible" style="width: 100%;"
+                            <select class="form-control select2 select2-hidden-accessible pid" style="width: 100%;"
                                 data-select2-id="1" tabindex="-1" aria-hidden="true" name="pid">
                                 <?= $admin->listpits(); ?>
                                 
@@ -54,22 +76,22 @@ $admin = new Admin();
                           </div>
 
 
-                          <!-- <div class="form-group">
+                          <div class="form-group" id="truckfrm">
                             <label>Select Truck</label>
-                            <select class="form-control select2 select2-hidden-accessible" style="width: 100%;"
-                                data-select2-id="1" tabindex="-1" aria-hidden="true" name="pid">
+                            <select class="form-control select2 select2-hidden-accessible tid" style="width: 100%;"
+                                data-select2-id="1" tabindex="-1" aria-hidden="true" name="tid">
                                 <?= $admin->listrucks(); ?>
                                 
                             </select>
                            
-                          </div> -->
+                          </div>
               </div>
 
               <div class="col-lg-3 col-6">
 
                           <div class="form-group">
                             <label>From</label>
-                            <input class="form-control "  type="date" name ="date1">
+                            <input class="form-control "  type="date" name ="date1"  id="fromdate">
                                 
                             <!--  -->
                           </div>
@@ -79,7 +101,7 @@ $admin = new Admin();
 
                           <div class="form-group">
                             <label>To</label>
-                            <input class="form-control "  type="date" name ="date2">
+                            <input class="form-control "  type="date" name ="date2" id="todate">
                                 
                             <!--  -->
                           </div>
@@ -87,8 +109,8 @@ $admin = new Admin();
 
               <div class="col-lg-3 col-6">
 
-                <button style="margin-top:30px;" type="submit" class="btn btn-primary">Get Report</button>
-                <button style="margin-top:30px;" type="submit" class="btn btn-primary">Get Report</button>
+                <button style="margin-top:30px;" type="submit" class="btn btn-primary" id="btnpit">Get pit</button>
+                <button style="margin-top:30px;" type="submit" class="btn btn-primary" id="btntruck">Get Truck</button>
               </div>
 
             
@@ -103,62 +125,10 @@ $admin = new Admin();
 
           <!-- Reports -->
 
-        <div class="row">
-            <div class="col-lg-3 col-6">
+        <div class="row" id="displayreport">
+            
 
-              <div class="small-box bg-info">
-                <div class="inner">
-                  <h3><?php echo countall('pit'); ?></h3>
-                  <p>Total Pits</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-bag"></i>
-                </div>
-                <a href="pits" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-6">
-
-              <div class="small-box bg-success">
-                <div class="inner">
-                  <h3><?php echo countall('trucks'); ?></h3>
-                  <p>Total Trucks</p>
-                </div>
-                <div class="icon">
-                <i class="ion ion-bag"></i>
-                </div>
-                <a href="trucks" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-6">
-
-              <div class="small-box bg-info">
-                <div class="inner">
-                  <h3><?php echo countall('trips'); ?></h3>
-                  <p>Total Trips</p>
-                </div>
-                <div class="icon">
-                <i class="ion ion-bag"></i>
-                </div>
-                <a href="trips" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-6">
-
-              <div class="small-box bg-success">
-                <div class="inner">
-                  <h3><?php echo customcount('trips', [['date_created', '=', date('Y-m-d')]]); ?></h3>
-                  <p> Trips Today</p>
-                </div>
-                <div class="icon">
-                <i class="ion ion-bag"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
+            
 
           </div>
         <!-- reports -->

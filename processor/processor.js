@@ -400,6 +400,52 @@ $(document).on('click','.btndelaccount',function(){
 });
 
 
+// Reports ************************************** */
+
+$('#frmcontroler').show();
+$('#truckfrm').hide();
+$('#btntruck').hide();
+$('#reporttype').on('change', function() {
+  var reporttype = $(this).val();
+  if(reporttype == 'pit'){
+    $('#truckfrm').hide();
+    $('#btntruck').hide();
+    $('#btnpit').show();
+    $('#pitfrm').show();
+  }
+  if(reporttype == 'truck'){
+    $('#truckfrm').show();
+    $('#btntruck').show();
+    $('#btnpit').hide();
+    $('#pitfrm').hide();
+
+
+  }
+  
+});
+
+// get pit report
+$('#btnpit').click(function(){
+  var pid = $('.pid').val();
+  var from = $('#fromdate').val();
+  var to = $('#todate').val();
+  var user = {
+    url: 'processor/processor.php?action=getpitreport',
+    type: 'post',
+    data: {'pid':pid,'from':from,'to':to},
+    beforeSend: before, 
+    success: function(response){
+      toastr.remove();
+      $('#displayreport').html(response);
+    }
+
+  };
+  $.ajax(user);
+
+});
+
+
+
 
 
 

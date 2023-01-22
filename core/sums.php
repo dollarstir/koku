@@ -37,9 +37,9 @@ class sums extends database
         // $vs = rtrim($vs, $conjunction);
         // echo $vs;
         if ($limit == '') {
-            $sel = $this->conn->prepare("SELECT SUM(rowsum) as totCost FROM $table $vs $kof ");
+            $sel = $this->conn->prepare("SELECT SUM($rowsum) as totCost FROM $table $vs $kof ");
         } else {
-            $sel = $this->conn->prepare("SELECT SUM(rowsum) as totCost FROM $table $vs $kof LIMIT $limit");
+            $sel = $this->conn->prepare("SELECT SUM($rowsum) as totCost FROM $table $vs $kof LIMIT $limit");
         }
         foreach ($target as $value) {
             if (is_array($value)) {
@@ -52,7 +52,8 @@ class sums extends database
             $sel->execute();
 
             $result = $sel->fetch(PDO::FETCH_ASSOC);
-             return $result['totCost'];
+
+            return $result['totCost'];
         } catch (PDOException $e) {
             echo $e;
         }
@@ -81,6 +82,7 @@ class sums extends database
         $sel->execute();
 
         $result = $sel->fetch(PDO::FETCH_ASSOC);
+
         return $result['totCost'];
     }
 }

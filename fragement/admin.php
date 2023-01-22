@@ -619,4 +619,37 @@ class admin
         
         ';
     }
+
+    //Report********************************************************
+    public function pitreport($pid, $from, $to)
+    {
+        $totaltonage = sum('trips', 'net', [['pid', '=', $pid], ['date_created', '>=', $from], ['date', '<=', $to]], 'AND');
+        echo '<div class="col-lg-3 col-6">
+
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3>'.$totaltonage.'</h3>
+            <p>Total Tounage</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-bag"></i>
+          </div>
+          <a href="pits" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-6">
+
+        <div class="small-box bg-success">
+          <div class="inner">
+            <h3>32</h3>
+            <p>Total Trucks</p>
+          </div>
+          <div class="icon">
+          <i class="ion ion-bag"></i>
+          </div>
+          <a href="trucks" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>';
+    }
 }
