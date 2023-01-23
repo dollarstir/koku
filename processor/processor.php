@@ -259,6 +259,7 @@ if (isset($_GET['action'])) {
     // admin login***********************************
     case 'adminlogin':
             $admin = new admin();
+            session_start();
             extract($_POST);
             if (empty(trim($username)) || empty(trim($password))) {
                 echo json_encode(['type' => 'warning', 'msg' => 'All fields are required']);
