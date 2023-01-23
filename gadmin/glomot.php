@@ -1,4 +1,9 @@
 <?php
+
+session_start();
+    if (!isset($_SESSION['fleetadmin']['admin_id'])) {
+        echo '<script>window.location.href="login"</script>';
+    }
 involve('core.php');
 
 admintop('Dashboard');
