@@ -53,7 +53,9 @@ function admintop($title)
 function adminnav()
 {
     session_start();
-    // mainchecker('fleetadmin', 'login');
+    if (!isset($_SESSION['fleetadmin']['admin_id'])) {
+        echo '<script>window.location.href="login"</script>';
+    }
     $adminid = $_SESSION['fleetadmin']['admin_id'];
     $admintype = customfetch('cmd', [['admin_id', '=', $adminid]]);
     $admintype = $admintype[0]['role'];
