@@ -4,7 +4,9 @@ involve('admin.php');
 admintop('Report');
 $admin = new Admin();
 session_start();
-loginpagechecker('fleetadmin', 'admin');
+if (isset($_SESSION['fleetadmin'])) {
+    echo '<script>window.location.href="admin"</script>';
+}
 ?>
 <body class="hold-transition login-page">
 <div class="login-box">
