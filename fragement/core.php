@@ -149,7 +149,7 @@ function adminnav()
 
 
                       <li class="nav-item">
-                          <a href="javascript:void;" class="nav-link" id="logout">
+                          <a href="javascript:;" class="nav-link" id="logout">
                           <i class="nav-icon fas fa-sign-out-alt"></i>
                           <p>
                               Logout

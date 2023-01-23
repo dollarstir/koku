@@ -760,4 +760,14 @@ class admin
             return ['type' => 'error', 'msg' => 'Invalid Username'];
         }
     }
+
+    // admin lgout********************************************************
+    public function logout()
+    {
+        if (logout('fleetadmin') == 'success') {
+            return ['type' => 'success', 'msg' => 'logout'];
+        } else {
+            return ['type' => 'error', 'msg' => 'Something went wrong'];
+        }
+    }
 }

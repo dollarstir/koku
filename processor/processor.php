@@ -266,6 +266,12 @@ if (isset($_GET['action'])) {
                 echo json_encode($admin->adminlogin($username, $password));
             }
             break;
+
+    // ***********************************logout
+    case 'logout':
+            $admin = new admin();
+            echo json_encode($admin->logout());
+            break;
     default:
 
             break;

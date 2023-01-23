@@ -3,7 +3,7 @@ involve('core.php');
 involve('admin.php');
 admintop('Report');
 $admin = new Admin();
-
+loginpagechecker('fleetadmin', 'admin');
 ?>
 <body class="hold-transition login-page">
 <div class="login-box">

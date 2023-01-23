@@ -67,6 +67,20 @@ $(function(){
             window.location.href = "admin";
 
           }
+
+          else if(response.type == "success" &&  response.msg == "logout"){
+            toastr.remove();
+            toastr.options = {
+              progressBar: true,
+              positionClass: "toast-top-center",
+
+            };
+            toastr.success('Logout Successful');
+            setTimeout(function(){
+              window.location.href = "login";
+            }, 2000);
+
+          }
         
         else{
 
@@ -490,6 +504,20 @@ $('.adminlogin').submit(function(e){
       
       beforeSend: before,
       success: resp
+
+  };
+  $.ajax(user);
+
+});
+
+
+// logout ************************************** */
+$(document).on('click','#logout',function(){
+  var user = {
+    url: 'processor/processor.php?action=logout',
+    type: 'post',
+    beforeSend: before,
+    success: resp
 
   };
   $.ajax(user);
